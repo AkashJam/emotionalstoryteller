@@ -27,21 +27,34 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Project Setup
 
-### Python 3 
+### NodeJS 
 
-Make sure you have Python 3 installed
+Make sure you have NodeJS installed
 
-### Django
+### Install packages
 
-Install Django using
+In the terminal, go in the "backend" folder and run
 
 ```
-pip3 install django
+npm install
 ```
 ### Run the project
 
 You have to be in the /emotionalstoryteller/backend folder, and you have to run 
 
 ```
-python3 manage.py runserver
+npm run serve
 ```
+### Database connection
+
+You have to install the PostgreSQL database on your local machine, and you have to create a new database called "storyteller". 
+Then you have to create a file in the "backend" folder named ".env" in which you have to write the following things:
+
+```
+#DATABSE CONFIG
+
+DEV_DB_NAME="storyteller" #THIS IS THE NAME OF THE DB, you should set it like this so that we will have the same one
+DEV_DB_USR="postgres"
+DEV_DB_HOST="localhost"
+DEV_DB_PWD="YOURPASSWORD_THAT_YOU_SET_WHEN_YOU_INSTALLED_POSTGRES"
+DEV_DB_PORT=5432
