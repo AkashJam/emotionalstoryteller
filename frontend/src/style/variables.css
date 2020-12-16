@@ -1,0 +1,12 @@
+:root {
+    --es-primary: #0A5E93;
+    --es-primary-light: #d6efff;
+    --es-grey-light: #FAFCFF;
+
+    --es-page-margin-X:40px;
+
+    --es-box-shadow: 0px 2px 4px rgba(71, 71, 71, 0.15);
+    --es-box-radius: 30px;
+    --es-box-padding: 20px;
+
+}
