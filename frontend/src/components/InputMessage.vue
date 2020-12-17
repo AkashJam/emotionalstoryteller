@@ -21,8 +21,7 @@ export default {
     methods: {
         sendMessage: async function() {
             bus.$emit('new-user-message',this.message);
-            // let response = await api.sendMessage(this.message);
-            let response = api.sendMessage(this.message);
+            let response = await api.sendMessage(this.message);
             bus.$emit('response-received',response);
             this.message="";
         }

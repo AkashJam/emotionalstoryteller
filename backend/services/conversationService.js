@@ -8,7 +8,7 @@ const sessionId = uuid.v4();
 const projectId = 'chatbot-test-bicu'
 
 module.exports = {
-    Conversation: async (query) => {   
+    conversation: async (query) => {   
         // Create a new session
         const sessionClient = new dialogflow.SessionsClient();
         const sessionPath = sessionClient.projectAgentSessionPath(projectId, sessionId);

@@ -28,9 +28,9 @@ export default {
         }
     },
     methods: {
-        chooseSuggestion: function(suggestion) {
+        chooseSuggestion: async function(suggestion) {
             bus.$emit('new-user-message', suggestion);
-            let response = api.sendMessage(suggestion);
+            let response = await api.sendMessage(suggestion);
             bus.$emit('response-received', response);
             this.suggestionChosen = true;
         }

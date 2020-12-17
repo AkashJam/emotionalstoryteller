@@ -7,30 +7,46 @@ let api = new Vue({
         }
     },
     methods: {
-        post: (path,data) => {
-            return fetch(api.api_root + path, {
+        post: async (path,data) => {
+            let result = await fetch(api.api_root + path, {
                 "method": "POST",
                 "headers": {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data) 
-            })
+                body: JSON.stringify(data) ,
+                mode: 'no-cors'
+            });
+
+            console.log(result);
+            return result;
+
         },
-        sendMessage: (message) => {
-            // return api.post("/message", {
-            //     message: message
+        sendMessage: async (message) => {
+            let result = await api.post("/nextresponse", {
+                query: message
+            });
+            return result;
+
+            //  await api.post("/nextresponse", {
+            //         query: message
+            //     }).then(response => {
+            //         console.log(response);
+            //     })
+
+            // .catch(error => {
+            //     console.log(error)
             // });
-            return {
-                userMessage: message,
-                chatResponse: {
-                    response: "Great! Would you like to hear a story?",
-                    context: {
-                        type: "OPEN-CONV"
-                    },
-                    suggestions: [ "Yes", "No" ],
-                    imgurl: ''
-                }
-            }
+            // return {
+            //     userMessage: message,
+            //     chatResponse: {
+            //         response: "Great! Would you like to hear a story?",
+            //         context: {
+            //             type: "OPEN-CONV"
+            //         },
+            //         suggestions: [ "Yes", "No" ],
+            //         imgurl: ''
+            //     }
+            // }
         }
     }
 });
