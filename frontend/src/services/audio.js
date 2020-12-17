@@ -28,7 +28,7 @@ let recorder = new Vue({
 
             this.mediaRecorder.addEventListener('stop', () => {
                 this.audioBlob = new window.Blob(this.audioChunks);
-                const audioUrl = window.URL.createObjectURL(audioBlob);
+                const audioUrl = window.URL.createObjectURL(this.audioBlob);
                 const audioFile = new Audio(audioUrl);
                 audioFile.play();
               });
