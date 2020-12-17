@@ -8,6 +8,10 @@
         </div>
         <conversation></conversation>
         <input-message></input-message>
+        <div style="position: absolute; top:400px; left:200px; background: white;">
+            <button @submit.prevent="startConversation()" @click="startConversation()">Start talking</button>
+            <button @submit.prevent="stopConversation()" @click="stopConversation()">Stop talking</button>
+        </div>
     </div>
 
             
@@ -16,11 +20,20 @@
 <script>
 import Conversation from '../components/Conversation'
 import InputMessage from '../components/InputMessage'
+import recorder from '../services/audio'
 
 export default {
     components: {
         Conversation,
         InputMessage
+    },
+    methods: {
+        startConversation: function() {
+            recorder.start()
+        },
+        stopConversation: function() {
+            recorder.stop()
+        }
     }
 
 }

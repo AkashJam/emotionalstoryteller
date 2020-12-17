@@ -28,4 +28,26 @@ router.post("/nextresponse", async (req, res, next) => {
         });
 });
 
+router.post("/speechToText", async (req, res, next) => {
+    var userreply = req.body.query;
+    const message = await conversationService.conversation(userreply);
+    res.json({
+            userMessage: req.body.query,
+            chatResponse: {
+                response: message,
+                context: {
+                    type: "OPEN-CONV"
+                },
+                suggestions: [ "Yes", "No" ],
+                imgurl: ''
+            }
+            // {
+            //      userMessage: req.body.query,
+            //      chatResponse: message
+            // }
+        });
+});
+
+
+
 module.exports = router;
