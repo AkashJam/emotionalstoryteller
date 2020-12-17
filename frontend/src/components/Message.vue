@@ -1,5 +1,5 @@
 <template>
-    <div class="message" :class="message.author =='BOT'? 'bot-message' : 'user-message'">
+    <div class="message" :class="message.author =='BOT'? 'bot-message' : 'user-message'" ref="messagebox">
         <div v-if="message.text" class="text">
             {{message.text}}
         </div>
@@ -34,6 +34,9 @@ export default {
             bus.$emit('response-received', response);
             this.suggestionChosen = true;
         }
+    },
+    mounted() {
+        this.$refs.messagebox.scrollIntoView()
     }
 
 }

@@ -73,15 +73,15 @@ export default {
 
 <style scoped>
 .conversation{
-    padding-top:150px;
-    z-index: 1;
+    z-index: 0;
     padding-left: var(--es-page-margin-X);
     padding-right: var(--es-page-margin-X);
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
+    top: 150px;
     bottom: 150px;
+    overflow: scroll;
 }
 
 
