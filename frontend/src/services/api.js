@@ -13,11 +13,8 @@ let api = new Vue({
                 "headers": {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data) ,
-                mode: 'no-cors'
-            });
-
-            console.log(result);
+                body: JSON.stringify(data)
+            }).then(response => response.json());
             return result;
 
         },
@@ -26,27 +23,6 @@ let api = new Vue({
                 query: message
             });
             return result;
-
-            //  await api.post("/nextresponse", {
-            //         query: message
-            //     }).then(response => {
-            //         console.log(response);
-            //     })
-
-            // .catch(error => {
-            //     console.log(error)
-            // });
-            // return {
-            //     userMessage: message,
-            //     chatResponse: {
-            //         response: "Great! Would you like to hear a story?",
-            //         context: {
-            //             type: "OPEN-CONV"
-            //         },
-            //         suggestions: [ "Yes", "No" ],
-            //         imgurl: ''
-            //     }
-            // }
         }
     }
 });

@@ -22,3 +22,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+chatbot-test-bicu-96c40f63fb5b.json
