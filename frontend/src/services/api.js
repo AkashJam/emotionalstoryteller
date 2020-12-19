@@ -19,7 +19,7 @@ let api = new Vue({
 
         },
         sendMessage: async (message) => {
-            let result = await api.post("/nextresponse", {
+            let result = await api.post("/api/nextresponse", {
                 query: message
             });
             return result;

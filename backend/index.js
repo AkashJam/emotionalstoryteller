@@ -1,16 +1,22 @@
 var express = require('express');
 const cors = require('cors');
-var app = express();
+
+var frontend_app = express();
+var webhook_app = express();
 
 const port = process.env.PORT || 3000;
-app.use(cors()); 
+frontend_app.use(cors()); 
 
 
-app.use(express.json());
+frontend_app.use(express.json());
+webhook_app.use(express.json());
 
 const conversationRoute = require('./routes/conversationRoute');
-app.use('/', conversationRoute);
+const webhookRoute = require('./routes/webhookRoute');
+frontend_app.use('/api', conversationRoute);
+webhook_app.use('/', webhookRoute);
 
 
-app.get('/', (req, res) => { res.send('Hello World!'); });
-app.listen(3000, () =>  { console.log(`App listening on port ${port}!`); });
+//app.get('/', (req, res) => { res.send('Hello World!'); });
+frontend_app.listen(3000, () =>  { console.log(`App listening on port ${port}!`); });
+webhook_app.listen(5000, () =>  { console.log(`App listening on port 5000!`); });

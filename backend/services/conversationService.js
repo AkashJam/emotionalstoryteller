@@ -5,7 +5,7 @@ const uuid = require('uuid');
 path = __dirname
 process.env.GOOGLE_APPLICATION_CREDENTIALS = `${path}/chatbot-test-bicu-96c40f63fb5b.json`;
 const sessionId = uuid.v4();
-const projectId = 'chatbot-test-bicu'
+const projectId = 'chatbot-test-bicu';
 
 module.exports = {
     conversation: async (query) => {   
@@ -29,8 +29,25 @@ module.exports = {
         const responses = await sessionClient.detectIntent(request);
         console.log('Detected intent');
         const result = responses[0].queryResult;
-        chatbotreply = result.fulfillmentText
-        return chatbotreply
+        console.log(result)
+        let whattosuggest = result.intent.displayName;
+        switch (whattosuggest) {
+            case 'Story Intro':
+                suggest = [ "Sad", "Happy", "Angry", "Afraid" ]
+                break;
+
+            default:
+                suggest = [ "Yes", "No"]
+                break;
+        }
+        return {
+            response: result.fulfillmentText,
+            context: {
+                type: result.action
+            },
+            suggestions: suggest,
+            imgurl: ''
+        }
 
         //If we need to do something in the DB we have to call the DAO class
         //return conversationDAO.startConversation();
