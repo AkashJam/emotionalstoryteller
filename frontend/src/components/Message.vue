@@ -1,5 +1,5 @@
 <template>
-    <div class="message" :class="message.author =='BOT'? 'bot-message' : 'user-message'" ref="messagebox">
+    <div v-if="!suggestionChosen" class="message" :class="message.author =='BOT'? 'bot-message' : 'user-message'" ref="messagebox">
         <div v-if="message.text" class="text">
             {{message.text}}
         </div>
@@ -19,7 +19,7 @@ import api from "../services/api"
 export default {
     data() {
         return {
-            suggestionChosen: false
+            suggestionChosen: false,
         }
     },
     props: {
@@ -29,10 +29,11 @@ export default {
     },
     methods: {
         chooseSuggestion: async function(suggestion) {
+            this.suggestionChosen = true;
+            bus.$emit('remove-suggestions', this.message.index);
             bus.$emit('new-user-message', suggestion);
             let response = await api.sendMessage(suggestion);
             bus.$emit('response-received', response);
-            this.suggestionChosen = true;
         }
     },
     mounted() {

@@ -22,6 +22,7 @@ let api = new Vue({
             let result = await api.post("/api/nextresponse", {
                 query: message
             });
+            console.log('sending user response to API....')
             return result;
         },
         getTextFromSpeech: () => {
@@ -40,7 +41,10 @@ let api = new Vue({
                     console.log('Invalid status saving audio message: ' + res.status);
                 })
             };
-        }
+        },
+        // startConversation: () => {
+        //     api.
+        // }
     }
 });
 

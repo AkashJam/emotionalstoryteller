@@ -13,47 +13,71 @@ export default {
         Message
     },
     data() {
-        return {
-            messages: [
-                {
-                    text: "Hi. I am Berno! What's your name?",
-                    author: "BOT",
-                    type: 'MESSAGE'
-                }
-            ]   
+        return { 
         }
+    },
+    computed: {
+        messages: function() {
+            return this.$store.state.messages
+        },
+        // lastQuestionAnswered: function() {
+        //     return this.$store
+        // }
     },
     methods: {
         appendEvents: function() {
             bus.$on('new-user-message',(message)=> {
-                this.messages.push({
+                this.$store.commit('addMessage',{
                     text: message,
                     author: 'USR',
                     type: 'MESSAGE'
                 });
             });
             bus.$on('response-received',(response)=>{
-                this.messages.push({
+                let currentIndex = this.messages.length;
+                this.$store.commit('addMessage',{
                     text: response.chatResponse.response,
                     author: 'BOT',
-                    type: 'MESSAGE'
+                    type: 'MESSAGE', 
+                    index: currentIndex
                 });
+                console.log(response)
+                if(response.chatResponse.context && response.chatResponse.context.type ) {
+                    if(response.chatResponse.context.type === 'SCARY-STORY') {
+                        bus.$emit('story-mode', 'SCARY');
+                    }
+                }
                 let suggestions = response.chatResponse.suggestions;
                 if(suggestions && suggestions.length > 0) {
                     setTimeout(()=>{
-                            this.messages.push({
-                                suggestions: suggestions,
-                                type: 'SUGGESTIONS',
-                                author: 'USR'
-                            });
-                        
-                    },15000);
+                            if(this.messages[this.messages.length - 1].index === currentIndex) {
+                                let suggestionMessage = {
+                                    suggestions: suggestions,
+                                    type: 'SUGGESTIONS',
+                                    author: 'USR',
+                                    index: currentIndex
+                                };
+                                this.messages.push(suggestionMessage); 
+
+                                bus.$on('remove-suggestions', (indexOfMessage) => {
+                                    let indexOfSuggestions = this.messages.indexOf(suggestionMessage);
+                                    if(indexOfSuggestions > - 1 && indexOfSuggestions > indexOfMessage) {
+                                        this.messages.splice(indexOfSuggestions, 1);
+                                    }
+                                })
+                            }
+                    },10000);
                 }
             });
-        }
+            
+        },
+        // startConversation: function()  {
+        //     nextresponse
+        // }
     },
     mounted() {
         this.appendEvents();
+        // this.startConversation();
     }
 
 

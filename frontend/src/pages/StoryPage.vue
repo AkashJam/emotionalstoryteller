@@ -3,21 +3,16 @@
         <banner></banner>
         <conversation></conversation>
         <input-message></input-message>
-        <!-- <div style="position: absolute; top:400px; left:200px; background: white;">
-            <button @submit.prevent="startConversation()" @click="startConversation()">Start talking</button>
-            <button @submit.prevent="stopConversation()" @click="stopConversation()">Stop talking</button>
-        </div> -->
     </div>
 
             
 
 </template>
 <script>
+import Banner from '../components/Banner.vue'
 import Conversation from '../components/Conversation'
 import InputMessage from '../components/InputMessage'
-import Banner from '../components/Banner'
 // import recorder from '../services/audio'
-import bus from '../services/bus'
 
 export default {
     components: {
@@ -32,12 +27,6 @@ export default {
         // stopConversation: function() {
         //     recorder.stop()
         // }
-    },
-    mounted() {
-        bus.$on('story-mode', (mode) => {
-            console.log("start story in mode " + mode )
-            this.$router.push({path: 'story'})
-        })
     }
 
 }
@@ -45,5 +34,24 @@ export default {
 
 
 <style scoped>
+svg {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+}
+.banner.container {
+  position: fixed;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+  height: 100px;
+}
 
+.banner img {
+    position: absolute;
+    z-index: 1;
+    left: 10%;
+    top: 16px;
+    width: 12%;
+}
 </style>
