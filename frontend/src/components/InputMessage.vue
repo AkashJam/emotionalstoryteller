@@ -23,6 +23,7 @@ export default {
             bus.$emit('new-user-message',this.message);
             let response = await api.sendMessage(this.message);
             bus.$emit('response-received',response);
+            bus.$emit('remove-suggestions', null);
             this.message="";
         }
     }

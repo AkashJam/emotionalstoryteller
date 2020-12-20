@@ -1,6 +1,6 @@
 <template>
     <div class="conversation-page">
-        <banner></banner>
+        <story-cover :storyMode="context"></story-cover>
         <conversation></conversation>
         <input-message></input-message>
     </div>
@@ -9,16 +9,19 @@
 
 </template>
 <script>
-import Banner from '../components/Banner.vue'
 import Conversation from '../components/Conversation'
 import InputMessage from '../components/InputMessage'
+import StoryCover from '../components/StoryCover'
 // import recorder from '../services/audio'
 
 export default {
+    data() {
+        return {context: 'SCARY'}
+    }, 
     components: {
         Conversation,
         InputMessage,
-        Banner
+        StoryCover
     },
     methods: {
         // startConversation: function() {

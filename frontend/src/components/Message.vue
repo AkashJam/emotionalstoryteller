@@ -1,9 +1,9 @@
 <template>
-    <div v-if="!suggestionChosen" class="message" :class="message.author =='BOT'? 'bot-message' : 'user-message'" ref="messagebox">
+    <div class="message" :class="message.author =='BOT'? 'bot-message' : 'user-message'" ref="messagebox">
         <div v-if="message.text" class="text">
             {{message.text}}
         </div>
-        <div v-if="message.suggestions && !suggestionChosen" class="suggestions"> 
+        <div v-if="message.suggestions && showSuggestions && !suggestionChosen" class="suggestions" ref="suggestionbox"> 
             <ul> 
                 <li v-for="(suggestion, index) in message.suggestions" :key="index" @click="chooseSuggestion(suggestion)">
                     {{suggestion}}
@@ -20,6 +20,7 @@ export default {
     data() {
         return {
             suggestionChosen: false,
+            showSuggestions: false,
         }
     },
     props: {
@@ -30,14 +31,32 @@ export default {
     methods: {
         chooseSuggestion: async function(suggestion) {
             this.suggestionChosen = true;
+            this.showSuggestions = false;
             bus.$emit('remove-suggestions', this.message.index);
             bus.$emit('new-user-message', suggestion);
             let response = await api.sendMessage(suggestion);
             bus.$emit('response-received', response);
+        },
+        appendEvents: function() {
+            if(this.message.suggestions && this.message.suggestions.length > 0) {
+                setTimeout(()=>{
+                    if(!this.suggestionChosen) {
+                        this.showSuggestions = true;
+                    }
+                },10000);
+
+                bus.$on('remove-suggestions', ()=>{
+                    this.suggestionChosen = true;
+                });
+            }
         }
     },
     mounted() {
-        this.$refs.messagebox.scrollIntoView()
+        this.$refs.messagebox.scrollIntoView();
+        this.appendEvents();
+    },
+    updated() {
+        this.$refs.messagebox.scrollIntoView();
     }
 
 }
@@ -68,7 +87,12 @@ export default {
     font-weight: 600;
 }
 
-.message.user-message .suggestions li{
+.message .suggestions {
+    text-align: right;
+}
+
+.message .suggestions li{
+    text-align: right;
     display: inline-block;
     font-size: 24px;
     padding: 8px 12px;

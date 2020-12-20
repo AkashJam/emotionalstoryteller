@@ -6,7 +6,7 @@ module.exports = {
         //console.log(reply)
         // Detect emotion from user's query text
         const emotion = await emotionDetect(reply.queryResult.queryText)
-        //console.log(res)
+        console.log(emotion)
         switch (emotion) {
             case 'sadness':
                 chatresponse = 'Your behavior shows that you are a little bit overwhelmed by this situation, which makes you sad. When you are sad you can talk with your parents or your friends. They can help you to fix your problem and can find a way to cheer you up !'

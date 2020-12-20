@@ -39,6 +39,7 @@ export default {
                     text: response.chatResponse.response,
                     author: 'BOT',
                     type: 'MESSAGE', 
+                    suggestions: response.chatResponse.suggestions,
                     index: currentIndex
                 });
                 console.log(response)
@@ -47,37 +48,14 @@ export default {
                         bus.$emit('story-mode', 'SCARY');
                     }
                 }
-                let suggestions = response.chatResponse.suggestions;
-                if(suggestions && suggestions.length > 0) {
-                    setTimeout(()=>{
-                            if(this.messages[this.messages.length - 1].index === currentIndex) {
-                                let suggestionMessage = {
-                                    suggestions: suggestions,
-                                    type: 'SUGGESTIONS',
-                                    author: 'USR',
-                                    index: currentIndex
-                                };
-                                this.messages.push(suggestionMessage); 
-
-                                bus.$on('remove-suggestions', (indexOfMessage) => {
-                                    let indexOfSuggestions = this.messages.indexOf(suggestionMessage);
-                                    if(indexOfSuggestions > - 1 && indexOfSuggestions > indexOfMessage) {
-                                        this.messages.splice(indexOfSuggestions, 1);
-                                    }
-                                })
-                            }
-                    },10000);
-                }
+                
+                
             });
             
         },
-        // startConversation: function()  {
-        //     nextresponse
-        // }
     },
     mounted() {
         this.appendEvents();
-        // this.startConversation();
     }
 
 

@@ -9,7 +9,7 @@ const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
   serviceUrl: process.env.NATURAL_LANGUAGE_UNDERSTANDING_URL,
 });
 
-async function DetectEmotion(result) {
+async function detectEmotion(result) {
   const analyzeParams = {
     'text': result,
     'features': {
@@ -18,10 +18,11 @@ async function DetectEmotion(result) {
     }
   };
 
-  var Results = await naturalLanguageUnderstanding.analyze(analyzeParams); 
+  var results = await naturalLanguageUnderstanding.analyze(analyzeParams); 
 
-  var result = Results.result.emotion.document.emotion
-  //console.log(result)
+  var result = results.result.emotion.document.emotion
+  // console.log(result)
+  console.log(result)
   var intensity = 0;
   for( let prop in result ){
     if (intensity<=result[prop]){
@@ -31,4 +32,4 @@ async function DetectEmotion(result) {
     }
   return emot
 }
-module.exports = DetectEmotion
+module.exports = detectEmotion
