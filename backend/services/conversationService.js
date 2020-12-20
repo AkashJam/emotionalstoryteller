@@ -29,11 +29,20 @@ module.exports = {
         const responses = await sessionClient.detectIntent(request);
         console.log('Detected intent');
         const result = responses[0].queryResult;
-        console.log(result)
+        console.log(result.intent.name);
+        //console.log(result)
+        //console.log(result.fulfillmentMessages[0].text.text[0])
         let whattosuggest = result.intent.displayName;
+        //console.log(whattosuggest)
         switch (whattosuggest) {
             case 'Story Intro':
-                suggest = [ "Sad", "Happy", "Angry", "Afraid" ]
+                suggest = [ "Happy", "Angry", "Afraid" ]
+                break;
+            case 'Emotion_1_wrong_fallback':
+                suggest = [ "Happy", "Angry", "Afraid" ]
+                break;
+            case 'Emotion_1_correct':
+                suggest = [ "Hide", "Fight", "Cry", "Laugh" ]
                 break;
 
             default:
@@ -41,7 +50,7 @@ module.exports = {
                 break;
         }
         return {
-            response: result.fulfillmentText,
+            response: result.fulfillmentMessages[0].text.text[0],
             context: {
                 type: result.action
             },
