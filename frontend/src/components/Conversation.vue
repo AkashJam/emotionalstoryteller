@@ -16,20 +16,10 @@ export default {
         return {
             messages: [
                 {
-                    text: "Hi",
+                    text: "Hi. I am Berno! What's your name?",
                     author: "BOT",
                     type: 'MESSAGE'
-                },
-                {
-                    text:"Hello",
-                    author: "USR",
-                    type: 'MESSAGE'
-                },
-                {
-                    text:"I am Berno. What's your name?",
-                    author: "BOT",
-                    type: 'MESSAGE'
-                },
+                }
             ]   
         }
     },
