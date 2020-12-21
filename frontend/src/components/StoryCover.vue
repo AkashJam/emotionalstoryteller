@@ -1,9 +1,15 @@
 <template>
-    <div class="story-banner container" :class="storyMode">
-        <svg viewBox="0 0 500 500" >
-            <path d="M0,50 C150,120 250,0 500,50 L500,00 L0,0 Z" style="stroke: none; fill:#d6efff;"></path>
-        </svg>
-        <img src="../assets/img/Berno_talking.svg">
+    <div class="story-banner" :class="storyMode">
+       
+        <div class="story-image">
+            <img :src="`/assets/${imgurl}`">
+        </div>
+        <div class="story-banner-end">
+            <svg viewBox="0 0 500 500" >
+                <path d="M0,50 C150,120 250,0 500,50 L500,00 L0,0 Z" style="stroke: none; fill:#d6efff;"></path>
+            </svg>
+            <img src="../assets/img/Berno_talking.svg">
+        </div>
     </div>     
 </template>
 
@@ -12,6 +18,9 @@
 export default {
     props: {
         storyMode: {
+            type: String
+        },
+        imgurl: {
             type: String
         }
     }
@@ -22,22 +31,34 @@ export default {
 <style scoped>
 svg {
   display: inline-block;
-  position: absolute;
   left: 0;
 }
-.story-banner.container {
-  position: fixed;
-  width: 100%;
-  padding-bottom: 100%;
-  overflow: hidden;
-  height: 100px;
+.story-banner {
+    height: 50%;
+    position: fixed;
+    left: 0;
+    right: 0;
 }
+.story-banner.SCARY-STORY {
+    background-color: var(--es-primary-light);
 
-.story-banner img {
-    position: absolute;
-    z-index: 1;
-    left: 10%;
-    top: 16px;
+}
+.story-banner-end {
+    width: 100%;
+    margin-top: -60px;
+    z-index:3
+}
+.story-image {
+    height: 90%;
+    text-align: center;
+    padding: 20px;
+}
+.story-image img {
+    height: 100%
+}
+.story-banner .story-banner-end  img {
     width: 12%;
+    position: absolute;
+    left: 20px;
 }
 </style>

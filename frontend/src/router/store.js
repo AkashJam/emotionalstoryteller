@@ -25,8 +25,13 @@ const store = new Vuex.Store({
     },
   },
   getters: {
-    getMessages: state => {
-      return state.messages;
+    getImgUrl: (state) => {
+        for(let i=state.messages.length - 1; i>=0; i--) {
+            if(state.messages[i].author === 'BOT' && state.messages[i].imgurl) {
+                return state.messages[i].imgurl
+            }
+        }
+        return null;
     }
   }
 })

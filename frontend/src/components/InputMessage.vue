@@ -40,7 +40,7 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 40px;
+    bottom: 20px;
 }
 .input-message > * {
     display: inline-block;
@@ -48,7 +48,7 @@ export default {
 }
 
 .input-message textarea {
-    height: 60px;
+    height: 30px;
     width: calc(100% - var(--es-page-margin-X) - 80px);
     border: 0;
     background-color: var(--es-grey-light);

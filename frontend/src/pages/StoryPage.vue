@@ -1,7 +1,7 @@
 <template>
     <div class="conversation-page">
-        <story-cover :storyMode="context"></story-cover>
-        <conversation></conversation>
+        <story-cover :storyMode="context" :imgurl="imgurl"></story-cover>
+        <conversation :context="context" :mode="'story'"></conversation>
         <input-message></input-message>
     </div>
 
@@ -15,9 +15,17 @@ import StoryCover from '../components/StoryCover'
 // import recorder from '../services/audio'
 
 export default {
-    data() {
-        return {context: 'SCARY'}
-    }, 
+    // data() {
+    //     return {context: 'SCARY'}
+    // }, 
+    computed: {
+        context: function() {
+            return this.$store.state.context;
+        },
+        imgurl: function() {
+            return this.$store.getters.getImgUrl
+        }
+    },
     components: {
         Conversation,
         InputMessage,

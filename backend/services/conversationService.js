@@ -33,7 +33,7 @@ module.exports = {
         //console.log(result)
         //console.log(result.fulfillmentMessages[0].text.text[0])
         let whattosuggest = result.intent.displayName;
-        //console.log(whattosuggest)
+        console.log(whattosuggest)
         switch (whattosuggest) {
             case 'Story Intro':
                 suggest = [ "Happy", "Angry", "Afraid" ]
@@ -49,13 +49,15 @@ module.exports = {
                 suggest = [ "Yes", "No"]
                 break;
         }
+        let imgurl = result.intent.name.split('/')
+        imgurl = imgurl[imgurl.length - 1];
         return {
             response: result.fulfillmentMessages[0].text.text[0],
             context: {
                 type: result.action
             },
             suggestions: suggest,
-            imgurl: ''
+            imgurl: imgurl + '.jpg'
         }
 
         //If we need to do something in the DB we have to call the DAO class

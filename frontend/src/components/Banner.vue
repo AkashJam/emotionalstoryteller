@@ -3,7 +3,7 @@
         <svg viewBox="0 0 500 500" >
             <path d="M0,50 C150,120 250,0 500,50 L500,00 L0,0 Z" style="stroke: none; fill:#d6efff;"></path>
         </svg>
-        <img src="../assets/img/Berno_talking.svg">
+        <img src="../../src/assets/img/Berno_talking.svg">
     </div>     
 </template>
 

@@ -40,7 +40,7 @@ export default {
         appendEvents: function() {
             if(this.message.suggestions && this.message.suggestions.length > 0) {
                 setTimeout(()=>{
-                    if(!this.suggestionChosen) {
+                    if(!this.suggestionChosen && this.$store.state.messages.length - 1 === this.message.index) {
                         this.showSuggestions = true;
                     }
                 },10000);

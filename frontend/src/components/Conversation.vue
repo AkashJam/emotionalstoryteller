@@ -1,5 +1,5 @@
 <template>
-    <div class="conversation">
+    <div class="conversation" :class="[context, mode]">
         <message v-for="(message, index) in messages" :key="index" :message="message"></message>
     </div>        
 
@@ -16,13 +16,18 @@ export default {
         return { 
         }
     },
+    props: {
+        context: {
+            type: String
+        },
+        mode: {
+            type: String
+        }
+    },
     computed: {
         messages: function() {
             return this.$store.state.messages
-        },
-        // lastQuestionAnswered: function() {
-        //     return this.$store
-        // }
+        }
     },
     methods: {
         appendEvents: function() {
@@ -40,12 +45,13 @@ export default {
                     author: 'BOT',
                     type: 'MESSAGE', 
                     suggestions: response.chatResponse.suggestions,
+                    imgurl: response.chatResponse.imgurl,
                     index: currentIndex
                 });
                 console.log(response)
                 if(response.chatResponse.context && response.chatResponse.context.type ) {
                     if(response.chatResponse.context.type === 'SCARY-STORY') {
-                        bus.$emit('story-mode', 'SCARY');
+                        this.$store.commit('setContext', response.chatResponse.context.type)
                     }
                 }
                 
@@ -74,6 +80,18 @@ export default {
     top: 150px;
     bottom: 150px;
     overflow: scroll;
+}
+
+.conversation.story {
+    z-index: 0;
+    padding-left: var(--es-page-margin-X);
+    padding-right: var(--es-page-margin-X);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 55%;
+    overflow: scroll;
+    height: 35%;
 }
 
 
