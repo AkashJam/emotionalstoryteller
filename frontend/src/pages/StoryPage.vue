@@ -15,9 +15,6 @@ import StoryCover from '../components/StoryCover'
 // import recorder from '../services/audio'
 
 export default {
-    // data() {
-    //     return {context: 'SCARY'}
-    // }, 
     computed: {
         context: function() {
             return this.$store.state.context;
@@ -39,7 +36,6 @@ export default {
         //     recorder.stop()
         // }
     }
-
 }
 </script>
 

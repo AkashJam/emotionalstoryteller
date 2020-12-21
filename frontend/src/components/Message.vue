@@ -5,7 +5,7 @@
         </div>
         <div v-if="message.suggestions && showSuggestions && !suggestionChosen" class="suggestions" ref="suggestionbox"> 
             <ul> 
-                <li v-for="(suggestion, index) in message.suggestions" :key="index" @click="chooseSuggestion(suggestion)">
+                <li v-for="(suggestion, index) in message.suggestions" :key="index" @click="chooseSuggestion(suggestion)" >
                     {{suggestion}}
                 </li>
             </ul>

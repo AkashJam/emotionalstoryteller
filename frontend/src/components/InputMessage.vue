@@ -1,7 +1,7 @@
 <template>
     <div class="input-message">
         <textarea v-model="message"></textarea>
-        <button @submit.prevent="sendMessage" @click.prevent="sendMessage">SEND</button>
+        <button @click.stop="sendMessage">SEND</button>
     </div>        
 </template>
 
@@ -22,7 +22,7 @@ export default {
         sendMessage: async function() {
             bus.$emit('new-user-message',this.message);
             let response = await api.sendMessage(this.message);
-            bus.$emit('response-received',response);
+            bus.$emit('response-received', response);
             bus.$emit('remove-suggestions', null);
             this.message="";
         }

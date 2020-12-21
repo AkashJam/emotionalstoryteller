@@ -1,8 +1,8 @@
 <template>
     <div class="story-banner" :class="storyMode">
        
-        <div class="story-image">
-            <img :src="`/assets/${imgurl}`">
+        <div class="story-image" >
+            <img :class="`img-${index}`" v-for="(image,index) in imgurl" :key="index" :src="`/assets/${image}`">
         </div>
         <div class="story-banner-end">
             <svg viewBox="0 0 500 500" >
@@ -21,7 +21,7 @@ export default {
             type: String
         },
         imgurl: {
-            type: String
+            type: Array
         }
     }
 }
@@ -53,7 +53,14 @@ svg {
     text-align: center;
     padding: 20px;
 }
-.story-image img {
+.story-banner .story-image img {
+    display: inline-block;
+    max-width: 32%;
+}
+
+.story-banner .story-image img:only-child {
+    max-width: initial;
+    display: initial;
     height: 100%
 }
 .story-banner .story-banner-end  img {
@@ -61,4 +68,6 @@ svg {
     position: absolute;
     left: 20px;
 }
+
+
 </style>

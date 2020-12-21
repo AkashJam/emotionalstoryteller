@@ -36,12 +36,7 @@ export default {
         //     recorder.stop()
         // }
     },
-    mounted() {
-        // bus.$on('story-mode', (mode) => {
-        //     console.log("start story in mode " + mode )
-        //     this.$router.push({path: 'story'})
-        // })
-    },
+
     watch: {
         contextChange: function() {
             if( this.$store.state.context === 'SCARY-STORY') {

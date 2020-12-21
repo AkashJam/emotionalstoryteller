@@ -62,6 +62,10 @@ export default {
     },
     mounted() {
         this.appendEvents();
+    },
+    beforeDestroy() {
+        bus.$off('new-user-message')
+        bus.$off('response-received')
     }
 
 
