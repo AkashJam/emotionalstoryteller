@@ -41,30 +41,35 @@ module.exports = {
         const responses = await sessionClient.detectIntent(request);
         console.log('Detected intent');
         const result = responses[0].queryResult;
-        console.log(result.intent.name);
+        //console.log(result.intent.name);
         //console.log(result)
         //console.log(result.fulfillmentMessages[0].text.text[0])
-        let whattosuggest = result.intent.displayName;
-        console.log(whattosuggest)
-        switch (whattosuggest) {
-            case 'Story Intro':
-                suggest = [ "Happy", "Angry", "Afraid" ]
-                break;
-            case 'Emotion_1_wrong_fallback':
-                suggest = [ "Happy", "Angry", "Afraid" ]
-                break;
-            case 'Emotion_1_correct':
-                suggest = [ "Hide", "Fight", "Cry", "Laugh" ]
-                break;
 
-            default:
-                suggest = [ "Yes", "No"]
-                break;
-        }
+        //For providing suggestions
+        // let whattosuggest = result.intent.displayName;
+        // console.log(whattosuggest)
+        // switch (whattosuggest) {
+        //     case 'Story Intro':
+        //         suggest = [ "Happy", "Angry", "Afraid" ]
+        //         break;
+        //     case 'Emotion_1_wrong_fallback':
+        //         suggest = [ "Happy", "Angry", "Afraid" ]
+        //         break;
+        //     case 'Emotion_1_correct':
+        //         suggest = [ "Hide", "Fight", "Cry", "Laugh" ]
+        //         break;
+
+        //     default:
+        //         suggest = [ "Yes", "No"]
+        //         break;
+        // }
         let intentID = result.intent.name.split('/')
         intentID = intentID[intentID.length - 1];
         console.log('this is the name of the intent: ' + intentID)
         console.log('these are the images: ' + images[`${intentID}`])
+
+        suggest = await conversationDAO.startConversation()
+        console.log(suggest)
 
         return {
             response: result.fulfillmentMessages[0].text.text[0],

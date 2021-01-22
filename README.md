@@ -45,6 +45,16 @@ You have to be in the /emotionalstoryteller/backend folder, and you have to run
 ```
 npm run serve
 ```
+
+### Using ngrok
+
+Download the zip file from the website and add your authtoken to your ngrok.yml file.
+Then go to file location in command prompt and run
+
+```
+ngrok http 3000
+```
+
 ### Database connection
 
 You have to install the PostgreSQL database on your local machine, and you have to create a new database called "storyteller". 
@@ -58,3 +68,7 @@ DEV_DB_USR="postgres"
 DEV_DB_HOST="localhost"
 DEV_DB_PWD="YOURPASSWORD_THAT_YOU_SET_WHEN_YOU_INSTALLED_POSTGRES"
 DEV_DB_PORT=5432
+
+### Story Table Schema
+
+intent_id, intent, suggestions, image_url
