@@ -60,16 +60,16 @@ module.exports = {
         //         break;
 
         //     default:
-        //         suggest = [ "Yes", "No"]
+                 suggest = [ "Yes", "No"]
         //         break;
         // }
         let intentID = result.intent.name.split('/')
         intentID = intentID[intentID.length - 1];
-        console.log('this is the name of the intent: ' + intentID)
-        console.log('these are the images: ' + images[`${intentID}`])
+        // console.log('this is the name of the intent: ' + intentID)
+        // console.log('these are the images: ' + images[`${intentID}`])
 
-        suggest = await conversationDAO.startConversation()
-        console.log(suggest)
+        suggest1 = await conversationDAO.startConversation()
+        console.log('Main ' +suggest1)
 
         return {
             response: result.fulfillmentMessages[0].text.text[0],
