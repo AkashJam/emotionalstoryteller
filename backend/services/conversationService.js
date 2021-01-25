@@ -69,7 +69,7 @@ module.exports = {
         console.log(result.intent.displayName)
         //console.log('these are the images: ' + images[`${intentID}`])
 
-        dbquery = await conversationDAO.intentAssests()
+        dbquery = await conversationDAO.intentAssests(intentID)
         suggest = dbquery.suggestion.split(',')
         //console.log(suggest)
         images = dbquery.image_url
