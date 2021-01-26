@@ -68,7 +68,7 @@ module.exports = {
         // console.log('this is the name of the intent: ' + intentID)
         // console.log(result.intent.displayName)
         // console.log('these are the images: ' + images[`${intentID}`])
-
+        // Getting the suggestions and images for the detected intent
         dbquery = await conversationDAO.intentAssests(intentID)
         try {
             suggest = dbquery.suggestion.split(',')

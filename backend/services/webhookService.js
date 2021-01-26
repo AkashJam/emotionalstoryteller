@@ -1,34 +1,48 @@
 const conversationDAO = require('../DAO/conversationDAO');
 const emotionDetect = require('./emotionDetectionService')
 
-detect = false
+usertext = ''
 
 module.exports = {
     webhook: async (reply) => {
-        // console.log(reply.queryResult.queryText)
+        // console.log(reply)
         let intentID = reply.queryResult.intent.name.split('/')
         intentID = intentID[intentID.length - 1];
         // console.log('this is the name of the intent: ' + intentID)
         // console.log(reply.queryResult.intent.displayName)
         response = reply.queryResult.fulfillmentMessages[0].text.text[0]
-        if(detect){
-            textanaylzed = usertext.concat(response)
-            const emotion = await emotionDetect(textanaylzed)
-            // console.log(emotion)
-            detect = false
-            // Querying database for the respective event
-            try {
-                dbquery = await conversationDAO.intentAssests(intentID)
-                eventlist = dbquery[`${emotion}`].split(',')
-                eventname = eventlist[eventlist.length - 1]
-            } catch (error) {
+        if(usertext==''){
+            usertext = reply.queryResult.queryText
+        }
+        else{
+            usertext = `${usertext}. ${reply.queryResult.queryText}`
+        } 
+        if(reply.queryResult.action=='OPEN-CONV'){
+            if(response!='end'){
                 eventname = null
+            }
+            else{
+                try {
+                    const emotion = await emotionDetect(usertext)
+                    dbquery = await conversationDAO.intentAssests(intentID)
+                    eventname = dbquery[`${emotion}`]
+                } catch (error) {
+                    eventname = null
+                }
+                usertext = ''
             }
         }
         else{
-            usertext = response
-            detect = true
-            eventname = null
+            try {
+                const emotion = await emotionDetect(usertext)
+                dbquery = await conversationDAO.intentAssests(intentID)
+                eventname = dbquery[`${emotion}`]
+            } catch (error) {
+                eventname = null
+            }
+            if(eventname!=null){
+                usertext = ''
+            }
         }
         // console.log(eventname)
         // Detect emotion from user's query text
