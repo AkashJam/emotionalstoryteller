@@ -22,9 +22,9 @@ async function detectEmotion(result) {
 
   var result = results.result.emotion.document.emotion
   // console.log(result)
-  // console.log(result)
+  // Identifying the most prevalent emotion from user's statement
   var intensity = 0;
-  for( let prop in result ){
+  for( let prop in result){
     if (intensity<result[prop]){
       intensity = result[prop]
       var emot = prop

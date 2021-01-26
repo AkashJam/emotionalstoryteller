@@ -11,10 +11,13 @@ module.exports = {
         // console.log('this is the name of the intent: ' + intentID)
         // console.log(reply.queryResult.intent.displayName)
         response = reply.queryResult.fulfillmentMessages[0].text.text[0]
+        console.log(detect)
         if(detect){
-            textanaylzed = usertext.concat(response)
-            const emotion = await emotionDetect(textanaylzed)
-            // console.log(emotion)
+            // Anayzing statement with context to extract emotion
+            textanalyzed = `${usertext}. ${reply.queryResult.queryText}`
+            console.log(textanalyzed)
+            const emotion = await emotionDetect(textanalyzed)
+            console.log(emotion)
             detect = false
             // Querying database for the respective event
             try {
@@ -26,7 +29,7 @@ module.exports = {
             }
         }
         else{
-            usertext = response
+            usertext = reply.queryResult.queryText
             detect = true
             eventname = null
         }
