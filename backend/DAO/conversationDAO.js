@@ -9,14 +9,30 @@ module.exports = {
                 result = data[0]
                 sug = result.suggestions
                 img = result.image_urls
+                sadness = result.sadness,
+                joy = result.joy,
+                fear = result.fear,
+                disgust = result.disgust,
+                anger = result.anger
             })
           }
         catch(err) {
-            sug = 'Yes, No'
+            sug = null
             img = null
+            sadness = null
+            joy = null
+            fear = null
+            disgust = null
+            anger = null
         }      
-        //console.log(result)
+        // console.log(result)
         return {suggestion: sug,
-            image_url: img}
+            image_url: img,
+            sadness: sadness,
+            joy: joy,
+            fear: fear,
+            disgust: disgust,
+            anger: anger
+        }
     }
 };
