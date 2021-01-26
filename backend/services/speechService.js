@@ -10,9 +10,11 @@ const projectId = 'chatbot-test-bicu';
 
 // Imports the Google Cloud client library
 const speech = require('@google-cloud/speech');
+const textToSpeech = require('@google-cloud/text-to-speech');
 
 // Creates a client
 const client = new speech.SpeechClient();
+const ttsclient = new textToSpeech.TextToSpeechClient()
 
 module.exports = {
     getTextFromSpeech: async (audio) => {
@@ -47,4 +49,18 @@ module.exports = {
         console.log(`Transcription: ${transcription}`);
         return transcription;
     },
+
+    getSpeechFromText: async (text) => {
+        const request = {
+            input: {text: text},
+            // Select the language and SSML voice gender (optional)
+            voice: {languageCode: 'en-US', ssmlGender: 'MALE'},
+            // select the type of audio encoding
+            audioConfig: { audioEncoding: 'LINEAR16', pitch: '5.0' },
+        };
+
+        const response = await ttsclient.synthesizeSpeech(request);
+
+        return response[0].audioContent;
+    }
 };

@@ -11,4 +11,13 @@ router.post("/textFromSpeech", async (req, res, next) => {
         });
 });
 
+router.post("/speechFromText", async (req, res, next) => {
+    var text = req.body.text;
+    const audio = await speechService.getSpeechFromText(text);
+    res.json({
+            text: text,
+            audioBase64: audio
+        });
+});
+
 module.exports = router;
