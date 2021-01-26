@@ -22,10 +22,10 @@ async function detectEmotion(result) {
 
   var result = results.result.emotion.document.emotion
   // console.log(result)
-  console.log(result)
+  // console.log(result)
   var intensity = 0;
   for( let prop in result ){
-    if (intensity<=result[prop]){
+    if (intensity<result[prop]){
       intensity = result[prop]
       var emot = prop
         }
