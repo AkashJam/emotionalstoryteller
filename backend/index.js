@@ -12,7 +12,9 @@ app.use(express.json());
 
 const conversationRoute = require('./routes/conversationRoute');
 const webhookRoute = require('./routes/webhookRoute');
+const speechRoute = require('./routes/speechRoute');
 app.use('/api', conversationRoute);
+app.use('/', speechRoute);
 app.use('/', webhookRoute);
 
 
