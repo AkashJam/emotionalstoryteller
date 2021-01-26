@@ -25,26 +25,15 @@ let api = new Vue({
             console.log('sending user response to API....')
             return result;
         },
-        getTextFromSpeech: () => {
-            const reader = new FileReader();
-            reader.readAsDataURL(this.audioBlob);
-            reader.onload = () => {
-                const base64AudioMessage = reader.result.split(',')[1];
+        getTextFromSpeech: async (audio) => {
 
-                api.post('/speechToText', {
-                    message: base64AudioMessage
-                }).then(res => {
-                    if (res.status === 201) {
-                        // return populateAudioMessages();
-                        console.log(res)
-                    }
-                    console.log('Invalid status saving audio message: ' + res.status);
-                })
-            };
+            let textResult = await api.post('/textFromSpeech', audio)
+                .catch(error => {
+                    console.log(error); 
+                });
+            return textResult;
+
         },
-        // startConversation: () => {
-        //     api.
-        // }
     }
 });
 

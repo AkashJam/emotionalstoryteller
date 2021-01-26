@@ -15,21 +15,27 @@ const speech = require('@google-cloud/speech');
 const client = new speech.SpeechClient();
 
 module.exports = {
-    getTextFromSpeech: async (audioBase64) => {
+    getTextFromSpeech: async (audio) => {
         // The path to the remote LINEAR16 file
-        const gcsUri = 'gs://cloud-samples-data/speech/brooklyn_bridge.raw';
+        // const gcsUri = 'gs://cloud-samples-data/speech/brooklyn_bridge.raw';
 
         // The audio file's encoding, sample rate in hertz, and BCP-47 language code
-        const audio = {
-            uri: gcsUri,
-        };
+        // const audio = {
+        //     uri: gcsUri,
+        // };
+
+        const audioData = audio.dataURL.split(',').pop();
+        let fileBuffer = Buffer.from(audioData, 'base64');
+            // run the simple transcribeAudio() function
         const config = {
             encoding: 'LINEAR16',
             sampleRateHertz: 16000,
             languageCode: 'en-US',
         };
         const request = {
-            audio: audio,
+            audio: {
+                content:fileBuffer
+            },
             config: config,
         };
 
