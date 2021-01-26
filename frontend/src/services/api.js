@@ -34,6 +34,13 @@ let api = new Vue({
             return textResult;
 
         },
+        getAudioMessage: async (text) => {
+            return await api.post('/speechFromText', {
+                text: text
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
     }
 });
 

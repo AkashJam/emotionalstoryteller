@@ -16,7 +16,7 @@ router.post("/speechFromText", async (req, res, next) => {
     const audio = await speechService.getSpeechFromText(text);
     res.json({
             text: text,
-            audioBase64: audio
+            audioBuffer: audio
         });
 });
 

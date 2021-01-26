@@ -84,6 +84,31 @@ let recorder = new Vue({
         },
         getLastAudio: function() {
             return this.audioBlob;
+        },
+        playMessage: async(arrayBuffer) => {
+            let buffer = new Uint8Array(arrayBuffer).buffer;            
+            let audioContext = new AudioContext();
+            let outputSource;
+            try {
+                if(buffer.byteLength > 0){
+                    console.log(buffer.byteLength);
+                    audioContext.decodeAudioData(
+                        buffer,
+                        function(buffer){
+                            audioContext.resume();
+                            outputSource = audioContext.createBufferSource();
+                            outputSource.connect(audioContext.destination);
+                            outputSource.buffer = buffer;
+                            outputSource.start(0);
+                        },
+                        function(){
+                            console.log(arguments);
+                        }
+                    );
+                }
+            } catch(e) {
+                console.log(e);
+            }
         }
     },
     created() {

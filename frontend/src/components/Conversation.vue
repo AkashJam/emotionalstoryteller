@@ -7,6 +7,9 @@
 <script>
 import Message from './Message'
 import bus from '../services/bus'
+import api from '../services/api'
+import recorder from '../services/audio'
+
 export default {
     // preserveAspectRatio="xMinYMin meet"
     components: {
@@ -54,6 +57,12 @@ export default {
                         this.$store.commit('setContext', response.chatResponse.context.type)
                     }
                 }
+
+                api.getAudioMessage(response.chatResponse.response)
+                    .then((result)=>{
+                        console.log(result)
+                        recorder.playMessage(result.audioBuffer.data)
+                    })
                 
                 
             });
