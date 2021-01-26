@@ -18,23 +18,21 @@ let recorder = new Vue({
                     this.mediaRecorder.addEventListener("dataavailable", event => {
                         this.audioChunks.push(event.data);
                     });
+
+                    this.mediaRecorder.addEventListener('stop', () => {
+                        this.audioBlob = new window.Blob(this.audioChunks);
+                        const audioUrl = window.URL.createObjectURL(this.audioBlob);
+                        const audioFile = new Audio(audioUrl);
+                        audioFile.play();
+                    });
             
                 });
         },
-        start: function() {
+        startRec: function() {
             this.mediaRecorder.start();
         },
-        stop: function() {
-
-            this.mediaRecorder.addEventListener('stop', () => {
-                this.audioBlob = new window.Blob(this.audioChunks);
-                const audioUrl = window.URL.createObjectURL(this.audioBlob);
-                const audioFile = new Audio(audioUrl);
-                audioFile.play();
-              });
-            
-            this.mediaRecorder.stop();
-                    
+        stopRec: function() {
+            this.mediaRecorder.stop();         
         },
         getLastAudio: function() {
             return this.audioBlob;
