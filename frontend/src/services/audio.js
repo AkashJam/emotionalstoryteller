@@ -58,6 +58,7 @@ let recorder = new Vue({
                 });
         },
         startRec: function() {
+            this.mediaRecorder.reset();
             this.mediaRecorder.startRecording();
         },
         stopRec: function() {
