@@ -29,7 +29,9 @@ module.exports = {
                 } catch (error) {
                     eventname = null
                 }
-                usertext = ''
+                if(eventname!=null){
+                    usertext = ''
+                }
             }
         }
         else{
