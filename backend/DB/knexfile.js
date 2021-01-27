@@ -12,8 +12,9 @@ let DBConnection = {
 module.exports = {
   client: 'pg',
   connection: DBConnection,
-  cwd: "./DB/",
+  cwd: "../DB/",
   migrations: {
-    directory: './DB/migrations'
-  }
+    directory: '../DB/migrations'
+  },
+  seeds: { directory: '../DB/seeds' }
 };

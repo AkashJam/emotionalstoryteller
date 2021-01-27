@@ -20,12 +20,14 @@ module.exports = {
         if(reply.queryResult.action=='OPEN-CONV'){
             if(response!='end'){
                 eventname = null
+                console.log(response)
             }
             else{
                 try {
                     const emotion = await emotionDetect(usertext)
-                    dbquery = await conversationDAO.intentAssests(intentID)
-                    eventname = dbquery[`${emotion}`]
+                    dbquery = await conversationDAO.storyAssests(emotion)
+                    eventname = dbquery.event_name
+                    console.log(eventname)
                 } catch (error) {
                     eventname = null
                 }
