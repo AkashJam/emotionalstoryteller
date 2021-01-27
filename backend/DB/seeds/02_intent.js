@@ -5,7 +5,7 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('intent').insert([
-        {id: 1, intent_id: '84a31010-99d5-4cd5-ad54-3fdf8d429ded', intent: 'S1_L1_ST1_E1', suggestions: 'Happy, Sad, Afraid', image_urls: '1-NOISE.png'},
+        {id: 1, intent_id: 'e295b918-996d-4396-952c-d11c02c02928', intent: 'S1_L1_ST1_E1', suggestions: 'Happy, Sad, Afraid', image_urls: '1-NOISE.png'},
       ]);
     });
 };

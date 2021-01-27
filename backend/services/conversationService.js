@@ -42,8 +42,14 @@ module.exports = {
         console.log('Detected intent');
         const result = responses[0].queryResult;
         //console.log(result.intent.name);
-        //console.log(result)
-        //console.log(result.fulfillmentMessages[0].text.text[0])
+        replies = []
+        console.log(result.fulfillmentMessages)
+        for(let reply in result.fulfillmentMessages){
+            console.log(reply)
+            replies[reply] = result.fulfillmentMessages[reply].text.text[0]
+        }
+        
+        console.log(replies)
 
         //For providing suggestions
         // let whattosuggest = result.intent.displayName;
@@ -77,10 +83,11 @@ module.exports = {
             suggest = null
             images = null
         }
-
+        // console.log(suggest)
+        // console.log(images)
 
         return {
-            response: result.fulfillmentMessages[0].text.text[0],
+            response: replies,
             context: {
                 type: result.action
             },

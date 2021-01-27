@@ -25,11 +25,13 @@ module.exports = {
             else{
                 try {
                     const emotion = await emotionDetect(usertext)
+                    console.log(emotion)
                     dbquery = await conversationDAO.storyAssests(emotion)
                     eventname = dbquery.event_name
                     //console.log(eventname)
                 } catch (error) {
                     eventname = null
+                    console.log("Didn't detect emotion")
                 }
                 if(eventname!=null){
                     usertext = ''

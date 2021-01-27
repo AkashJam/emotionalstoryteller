@@ -5,7 +5,7 @@ module.exports = {
     intentAssests: async (id) => {
         try {
             await database.select().where('intent_id',id).from('intent').then(function(data) {
-                //console.log(data[0])
+                //console.log(data)
                 result = data[0]
                 sug = result.suggestions
                 img = result.image_urls
@@ -24,6 +24,7 @@ module.exports = {
             fear = null
             disgust = null
             anger = null
+            console.log("wrong intent_id")
         }      
         // console.log(result)
         return {suggestion: sug,
