@@ -42,12 +42,12 @@ module.exports = {
         console.log('Detected intent');
         const result = responses[0].queryResult;
         //console.log(result.intent.name);
-        replies = []
+        replies = result.fulfillmentMessages[0].text.text[0]
         console.log(result.fulfillmentMessages)
-        for(let reply in result.fulfillmentMessages){
-            console.log(reply)
-            replies[reply] = result.fulfillmentMessages[reply].text.text[0]
-        }
+        // for(let reply in result.fulfillmentMessages){
+        //     console.log(reply)
+        //     replies[reply] = result.fulfillmentMessages[reply].text.text[0]
+        // }
         
         console.log(replies)
 
