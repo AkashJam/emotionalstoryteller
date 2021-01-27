@@ -38,15 +38,13 @@ module.exports = {
     storyAssests: async (emotion) => {
         try {
             await database.select('event_name').where('emotion',emotion).from('story').then(function(data) {
-                console.log(data[0])
                 result = data[0]
                 ev = result.event_name
             })
           }
         catch(err) {
             await database.select('event_name').from('story').then(function(data) {
-                console.log(data[0])
-                result = data[0]
+                result = data[Math.floor(Math.random() * data.length)]
                 ev = result.event_name
             })
         }      

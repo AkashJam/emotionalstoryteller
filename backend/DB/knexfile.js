@@ -1,5 +1,5 @@
 // Update with your config settings.
-require('dotenv').config({ path: './.env' })
+require('dotenv').config({ path: '../.env' })
 
 let DBConnection = {
       host: process.env.DEV_DB_HOST,
