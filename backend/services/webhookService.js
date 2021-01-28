@@ -11,6 +11,7 @@ module.exports = {
         // console.log('this is the name of the intent: ' + intentID)
         // console.log(reply.queryResult.intent.displayName)
         response = reply.queryResult.fulfillmentMessages[0].text.text[0]
+        a = 1
         if(usertext==''){
             usertext = reply.queryResult.queryText
         }
@@ -24,30 +25,32 @@ module.exports = {
             }
             else{
                 try {
+                    // console.log(usertext)
                     const emotion = await emotionDetect(usertext)
-                    console.log(emotion)
+                    // console.log(emotion)
                     dbquery = await conversationDAO.storyAssests(emotion)
                     eventname = dbquery.event_name
-                    //console.log(eventname)
+                    // console.log(eventname)
+                    if(eventname!=null){
+                        usertext = ''
+                    }
                 } catch (error) {
                     eventname = null
-                    console.log("Didn't detect emotion")
-                }
-                if(eventname!=null){
-                    usertext = ''
+                    console.log(error)
                 }
             }
         }
         else{
             try {
+                console.log('why are you running?')
                 const emotion = await emotionDetect(usertext)
                 dbquery = await conversationDAO.intentAssests(intentID)
                 eventname = dbquery[`${emotion}`]
+                if(eventname!=null){
+                    usertext = ''
+                }
             } catch (error) {
                 eventname = null
-            }
-            if(eventname!=null){
-                usertext = ''
             }
         }
         // console.log(eventname)

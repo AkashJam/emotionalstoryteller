@@ -43,13 +43,13 @@ module.exports = {
         const result = responses[0].queryResult;
         //console.log(result.intent.name);
         replies = result.fulfillmentMessages[0].text.text[0]
-        console.log(result.fulfillmentMessages)
+        // console.log(result.fulfillmentMessages)
         // for(let reply in result.fulfillmentMessages){
         //     console.log(reply)
         //     replies[reply] = result.fulfillmentMessages[reply].text.text[0]
         // }
         
-        console.log(replies)
+        // console.log(replies)
 
         //For providing suggestions
         // let whattosuggest = result.intent.displayName;
@@ -71,8 +71,8 @@ module.exports = {
         // }
         let intentID = result.intent.name.split('/')
         intentID = intentID[intentID.length - 1];
-        // console.log('this is the name of the intent: ' + intentID)
-        // console.log(result.intent.displayName)
+        console.log('this is the name of the intent: ' + intentID)
+        console.log(result.intent.displayName)
         // console.log('these are the images: ' + images[`${intentID}`])
         // Getting the suggestions and images for the detected intent
         dbquery = await conversationDAO.intentAssests(intentID)

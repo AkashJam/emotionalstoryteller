@@ -24,7 +24,7 @@ module.exports = {
             fear = null
             disgust = null
             anger = null
-            console.log("wrong intent_id")
+            // console.log("wrong intent_id")
         }      
         // console.log(result)
         return {suggestion: sug,
@@ -47,6 +47,7 @@ module.exports = {
             await database.select('event_name').from('story').then(function(data) {
                 result = data[Math.floor(Math.random() * data.length)]
                 ev = result.event_name
+                // console.log(emotion)
             })
         }      
         // console.log(result)
