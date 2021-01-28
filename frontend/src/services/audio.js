@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import RecordRTC from 'recordrtc';
-import api from './api';
+// import api from './api';
 
 
 let recorder = new Vue({
@@ -61,26 +61,32 @@ let recorder = new Vue({
             this.mediaRecorder.reset();
             this.mediaRecorder.startRecording();
         },
-        stopRec: function() {
-            this.mediaRecorder.stopRecording(() => {
+        stopRec: async function() {
 
-                // after stopping the audio, get the audio data
-                this.mediaRecorder.getDataURL(async (audioDataURL) => {
-                    var files = {
-                        audio: {
-                            type: this.mediaRecorder.getBlob().type || 'audio/wav',
-                            dataURL: audioDataURL
+            return new Promise((resolve, reject) => {
+
+                this.mediaRecorder.stopRecording(() => {
+
+                    // after stopping the audio, get the audio data
+                    this.mediaRecorder.getDataURL(async (audioDataURL) => {
+                        if(!audioDataURL) {
+                            reject(null);
                         }
-                    };
-                    // submit the audio file to the server
-                    this.audioBlob = files;
+                        var files = {
+                            audio: {
+                                type: this.mediaRecorder.getBlob().type || 'audio/wav',
+                                dataURL: audioDataURL
+                            }
+                        };
+                        // submit the audio file to the server
+                        this.audioBlob = files;
+                        resolve(this.audioBlob);
+                        
+                    });
+                });   
 
-                    await api.getTextFromSpeech(this.audioBlob)
-                        .then((result)=>{
-                            console.log(result)
-                        });
-                });
-            });    
+            });
+           
         },
         getLastAudio: function() {
             return this.audioBlob;
