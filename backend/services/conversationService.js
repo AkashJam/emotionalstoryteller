@@ -51,24 +51,6 @@ module.exports = {
         
         // console.log(replies)
 
-        //For providing suggestions
-        // let whattosuggest = result.intent.displayName;
-        // console.log(whattosuggest)
-        // switch (whattosuggest) {
-        //     case 'Story Intro':
-        //         suggest = [ "Happy", "Angry", "Afraid" ]
-        //         break;
-        //     case 'Emotion_1_wrong_fallback':
-        //         suggest = [ "Happy", "Angry", "Afraid" ]
-        //         break;
-        //     case 'Emotion_1_correct':
-        //         suggest = [ "Hide", "Fight", "Cry", "Laugh" ]
-        //         break;
-
-        //     default:
-        //         suggest = [ "Yes", "No"]
-        //         break;
-        // }
         let intentID = result.intent.name.split('/')
         intentID = intentID[intentID.length - 1];
         console.log('this is the name of the intent: ' + intentID)
@@ -78,12 +60,15 @@ module.exports = {
         dbquery = await conversationDAO.intentAssests(intentID)
         try {
             suggest = dbquery.suggestion.split(',')
-            images = dbquery.image_url.split(',')
         } catch (error) {
             suggest = null
+        }
+        try {
+            images = dbquery.image_url.split(',')
+        } catch (error) {
             images = null
         }
-        // console.log(suggest)
+        console.log(suggest)
         // console.log(images)
 
         return {

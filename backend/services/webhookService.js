@@ -42,8 +42,9 @@ module.exports = {
         }
         else{
             try {
-                console.log('why are you running?')
+                console.log(usertext)
                 const emotion = await emotionDetect(usertext)
+                console.log(emotion)
                 dbquery = await conversationDAO.intentAssests(intentID)
                 eventname = dbquery[`${emotion}`]
                 if(eventname!=null){
