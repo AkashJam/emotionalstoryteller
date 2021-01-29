@@ -27,6 +27,7 @@ svg {
   padding-bottom: 100%;
   overflow: hidden;
   height: 100px;
+  padding-bottom: 150px;
 }
 
 .banner img {

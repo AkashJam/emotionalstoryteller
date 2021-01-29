@@ -1,7 +1,7 @@
 <template>
     <div class="conversation-page">
-        <banner></banner>
         <conversation></conversation>
+        <banner></banner>
         <input-message></input-message>
     </div>
 </template>

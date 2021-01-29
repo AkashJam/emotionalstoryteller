@@ -1,7 +1,11 @@
 <template>
     <div class="message" :class="message.author =='BOT'? 'bot-message' : 'user-message'" ref="messagebox">
-        <div v-if="message.text" class="text">
-            {{message.text}}
+        <div v-if="message.text" class="text-box">
+            <div class="text">{{message.text}}</div>
+            <div class="play-icon" v-if="message.author == 'BOT'">
+                <img v-if="!playingMessage" src="../assets/icons/play.svg" @click="playMessage">
+                <img v-if="playingMessage" src="../assets/icons/stop.svg" @click="stopPlayingMessage">
+            </div>
         </div>
         <div v-if="message.suggestions && showSuggestions && !suggestionChosen" class="suggestions" ref="suggestionbox"> 
             <ul> 
@@ -16,11 +20,14 @@
 <script>
 import bus from "../services/bus"
 import api from "../services/api"
+import recorder from '../services/audio'
+
 export default {
     data() {
         return {
             suggestionChosen: false,
             showSuggestions: false,
+            playingMessage: false
         }
     },
     props: {
@@ -49,6 +56,16 @@ export default {
                     this.suggestionChosen = true;
                 });
             }
+        },
+        playMessage: function() {
+            this.playingMessage = true;
+            recorder.playMessage(this.message.audioBuffer, () => {
+                this.playingMessage = false;
+            })
+        },
+        stopPlayingMessage: function() {
+            recorder.stopPlayingMessage();
+            this.playingMessage = false;
         }
     },
     mounted() {
@@ -71,7 +88,7 @@ export default {
 .message.user-message {
     text-align: right;
 }
-.message .text {
+.message .text-box {
     background-color: var(--es-grey-light);
     box-shadow: var(--es-box-shadow);
     border-radius: var(--es-box-radius);
@@ -81,10 +98,31 @@ export default {
     margin-bottom: 14px;
 }
 
-.message.user-message .text{
+.message .text-box > * {
+    display: inline-block;
+}
+
+.message .text-box .play-icon {
+    padding: 0px 10px;
+}
+
+.message .text-box .play-icon img {
+    width: 26px;
+    vertical-align: bottom;
+}
+
+.message.user-message .text-box {
     background-color: var(--es-primary);
     color: white;
     font-weight: 600;
+}
+
+.message.bot-message .text-box {
+    padding-right: 0;
+}
+
+.message.bot-message .text-box .text {
+    width: calc(100% - 46px); 
 }
 
 .message .suggestions {
