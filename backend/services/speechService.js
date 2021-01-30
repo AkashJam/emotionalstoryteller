@@ -2,6 +2,9 @@
 const conversationDAO = require('../DAO/conversationDAO');
 const uuid = require('uuid');
 
+require('dotenv').config({ path: '../.env' })
+
+
 const sessionId = uuid.v4();
 const projectId = 'chatbot-test-bicu';
 

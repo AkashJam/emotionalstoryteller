@@ -2,6 +2,8 @@ const conversationDAO = require('../DAO/conversationDAO');
 const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 
+require('dotenv').config({ path: '../.env' })
+
 const sessionId = uuid.v4();
 const projectId = 'chatbot-test-bicu';
 

@@ -1,5 +1,6 @@
 const conversationDAO = require('../DAO/conversationDAO');
 const emotionDetect = require('./emotionDetectionService')
+require('dotenv').config({ path: '../.env' })
 
 usertext = ''
 
