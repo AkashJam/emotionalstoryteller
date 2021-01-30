@@ -28,6 +28,10 @@ exports.seed = function(knex) {
         {id: 21, intent_id: '0479e15a-6e0b-4c75-9b60-f2edb2dd1d58', intent: 'S1_L2_ST3_E6_argue', suggestions: 'Yes, No, Maybe'},
         {id: 22, intent_id: '0ca23f70-30b1-41d6-ac19-0db57383eb74', intent: 'S1_L2_ST3_E6_purpose', suggestions: 'Yes, No, Maybe'},
         {id: 23, intent_id: '5a62de39-3229-4039-a9c1-a58dd496c93c', intent: 'S1_L2_ST3_E6_default', suggestions: 'Yes, No, Maybe'},
+        {id: 24, intent_id: 'e6cd27bd-9259-4b39-aa01-91b3efd78ed2', intent: 'Story Conclusion Scared', suggestions: 'Yes, No, Maybe'},
+        {id: 25, intent_id: 'bd8815d8-1e68-4b7b-b268-61e5a5cb3cc3', intent: 'Story Conclusion Happy', suggestions: 'Yes, No, Maybe'},
+        {id: 26, intent_id: '641b33ca-851f-410c-b5ac-cf7d118ff8d0', intent: 'Story Conclusion Angry', suggestions: 'Yes, No, Maybe'},
+        {id: 27, intent_id: 'f3496314-1482-43b1-b382-898225c3dbe9', intent: 'Story Request', suggestions: 'Yes, No, Maybe'},
       ]);
     });
 };
