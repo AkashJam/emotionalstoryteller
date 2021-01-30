@@ -8,7 +8,8 @@ let recorder = new Vue({
         return {
             mediaRecorder: null,
             audioChunks: [],
-            audioBlob: null
+            audioBlob: null,
+            outputSource: null
         }
     },
     methods: {
@@ -91,10 +92,9 @@ let recorder = new Vue({
         getLastAudio: function() {
             return this.audioBlob;
         },
-        playMessage: async(arrayBuffer) => {
+        playMessage: async(arrayBuffer, endHandler) => {
             let buffer = new Uint8Array(arrayBuffer).buffer;            
             let audioContext = new AudioContext();
-            let outputSource;
             try {
                 if(buffer.byteLength > 0){
                     console.log(buffer.byteLength);
@@ -102,12 +102,14 @@ let recorder = new Vue({
                         buffer,
                         function(buffer){
                             audioContext.resume();
-                            outputSource = audioContext.createBufferSource();
-                            outputSource.connect(audioContext.destination);
-                            outputSource.buffer = buffer;
-                            outputSource.start(0);
+                            recorder.outputSource = audioContext.createBufferSource();
+                            recorder.outputSource.connect(audioContext.destination);
+                            recorder.outputSource.buffer = buffer;
+                            recorder.outputSource.onended = endHandler;
+                            recorder.outputSource.start(0);
+
                         },
-                        function(){
+                        function() {
                             console.log(arguments);
                         }
                     );
@@ -115,6 +117,9 @@ let recorder = new Vue({
             } catch(e) {
                 console.log(e);
             }
+        },
+        stopPlayingMessage: () => {
+            recorder.outputSource.stop();
         }
     },
     created() {

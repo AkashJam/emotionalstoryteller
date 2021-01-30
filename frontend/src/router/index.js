@@ -1,17 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import OpenConversationPage from '../pages/OpenConversationPage'
 import StoryPage from '../pages/StoryPage'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Conversation',
-    component: OpenConversationPage
-  },
-  {
-    path: '/story',
     name: 'Story',
     component: StoryPage
     // route level code-splitting
