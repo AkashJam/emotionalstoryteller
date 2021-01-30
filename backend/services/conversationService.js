@@ -2,8 +2,6 @@ const conversationDAO = require('../DAO/conversationDAO');
 const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 
-path = __dirname
-process.env.GOOGLE_APPLICATION_CREDENTIALS = `${path}/chatbot-test-bicu-96c40f63fb5b.json`;
 const sessionId = uuid.v4();
 const projectId = 'chatbot-test-bicu';
 
