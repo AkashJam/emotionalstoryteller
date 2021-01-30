@@ -1,5 +1,5 @@
 <template>
-    <div class="conversation" :class="[context, mode]">
+    <div class="conversation" :class="[context]">
         <message v-for="(message, index) in messages" :key="index" :message="message"></message>
     </div>        
 
@@ -21,9 +21,6 @@ export default {
     },
     props: {
         context: {
-            type: String
-        },
-        mode: {
             type: String
         }
     },
@@ -59,14 +56,10 @@ export default {
 
                 console.log(response)
                 if(response.chatResponse.context && response.chatResponse.context.type ) {
-                    if(response.chatResponse.context.type === 'SCARY-STORY') {
+                    if(response.chatResponse.context.type !== this.$store.state.context) {
                         this.$store.commit('setContext', response.chatResponse.context.type)
                     }
                 }
-
-                
-                
-                
             });
             
         },
@@ -85,7 +78,7 @@ export default {
 
 
 <style scoped>
-.conversation{
+.conversation.OPEN-CONV{
     z-index: 0;
     padding-left: var(--es-page-margin-X);
     padding-right: var(--es-page-margin-X);
@@ -97,21 +90,24 @@ export default {
     overflow: scroll;
 }
 
-.conversation.story {
+.conversation:not(.OPEN-CONV) {
     z-index: 0;
     padding-left: var(--es-page-margin-X);
     padding-right: var(--es-page-margin-X);
     position: absolute;
     left: 0;
     right: 0;
-    top: 55%;
+    top: 45%;
     overflow: scroll;
-    height: 35%;
+    height: 40%;
 }
 
-.conversation .message:first-child {
+.conversation.OPEN-CONV .message:first-child {
     margin-top: 150px;
 }
 
+.conversation:not(.OPEN-CONV) .message:first-child {
+    margin-top: 20px;
+}
 
 </style>

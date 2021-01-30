@@ -1,7 +1,7 @@
 <template>
     <div class="conversation-page">
         <story-cover :storyMode="context" :imgurl="imgurl"></story-cover>
-        <conversation :context="context" :mode="'story'"></conversation>
+        <conversation :context="context"></conversation>
         <input-message></input-message>
     </div>
 
@@ -28,14 +28,6 @@ export default {
         InputMessage,
         StoryCover
     },
-    methods: {
-        // startConversation: function() {
-        //     recorder.start()
-        // },
-        // stopConversation: function() {
-        //     recorder.stop()
-        // }
-    }
 }
 </script>
 
