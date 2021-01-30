@@ -24,7 +24,7 @@ module.exports = {
             fear = null
             disgust = null
             anger = null
-            // console.log("wrong intent_id")
+            console.log("wrong intent_id")
         }      
         // console.log(result)
         return {suggestion: sug,
@@ -52,12 +52,6 @@ module.exports = {
         }      
         // console.log(result)
         return {event_name: ev
-        //     image_url: img,
-        //     sadness: sadness,
-        //     joy: joy,
-        //     fear: fear,
-        //     disgust: disgust,
-        //     anger: anger
         }
     }
 };
