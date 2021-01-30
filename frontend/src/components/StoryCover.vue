@@ -59,7 +59,19 @@ export default {
     animation-duration: 2s;
 }
 .story-banner:NOT(.OPEN-CONV).SCARY-STORY {
-    background-color: var(--es-primary-light);
+    background-color: var(--es-color-afraid);
+}
+
+.story-banner:NOT(.OPEN-CONV).ANGRY-STORY {
+    background-color: var(--es-color-angry);
+}
+
+.story-banner:NOT(.OPEN-CONV).HAPPY-STORY {
+    background-color: var(--es-color-happy);
+}
+
+.story-banner:NOT(.OPEN-CONV).SAD-STORY {
+    background-color: var(--es-color-sad);
 }
 
 .story-banner:NOT(.OPEN-CONV) .story-banner-end .character {
@@ -74,7 +86,14 @@ export default {
 
 .story-banner:NOT(.OPEN-CONV) .story-banner-end {
     width: 100%;
-    z-index:3
+    z-index:3;
+    height: 100%;
+    position: absolute;
+}
+.story-banner:NOT(.OPEN-CONV) .story-banner-end svg{
+    animation-name: story-header;
+    animation-duration: 1s;
+    opacity: 0;
 }
 .story-image {
     height: 90%;
@@ -106,6 +125,11 @@ export default {
 @keyframes character-move {
   0%   {top: 16px;}
   100% { top: 100%;}
+}
+
+@keyframes story-header {
+  0%   {opacity: 1;}
+  100% { opacity: 0;}
 }
 
 </style>

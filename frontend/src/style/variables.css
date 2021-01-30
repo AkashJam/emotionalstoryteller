@@ -10,4 +10,11 @@
     --es-box-radius: 26px;
     --es-box-padding: 10px 20px;
 
+    /* Emotion colors */
+
+    --es-color-afraid: #212c5e;
+    --es-color-sad: #034494;
+    --es-color-angry: #981515;
+    --es-color-happy: #69d476;
+
 }
