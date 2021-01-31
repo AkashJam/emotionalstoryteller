@@ -31,37 +31,39 @@ module.exports = {
         const responses = await sessionClient.detectIntent(request);
         // console.log('Detected intent');
         const result = responses[0].queryResult;
-        //console.log(result.intent.name);
-        replies = result.fulfillmentMessages[0].text.text[0]
+        contexts = result.action.split(',')
+        replies = []//result.fulfillmentMessages[0].text.text[0]
         // If we want to use multiple text responses
         // console.log(result.fulfillmentMessages)
-        // for(let reply in result.fulfillmentMessages){
-        //     console.log(reply)
-        //     replies[reply] = result.fulfillmentMessages[reply].text.text[0]
-        // }
-        
-        // console.log(replies)
-        if(result.action=='OPEN-CONV'){
-            sections=[]
+        for(let reply in result.fulfillmentMessages){
+            // console.log(reply)
+            replies[reply] = result.fulfillmentMessages[reply].text.text[0]
         }
-        if (result.action!='OPEN-CONV'&&result.action!='STORY-CONC') {
-            for(let section in sections){
-                // console.log(section)
-                if(sections[section]==result.action){
-                    newcontext = false
+        // console.log(replies)
+        
+        for(let context in contexts){
+            if(contexts[context]=='OPEN-CONV'){
+                sections=[]
+            }
+            if (contexts[context]!='OPEN-CONV'&&contexts[context]!='STORY-CONC') {
+                for(let section in sections){
+                    // console.log(section)
+                    if(sections[section]==contexts[context]){
+                        newcontext = false
+                    }
                 }
+                if(newcontext){
+                    sections.push(contexts[context])
+                }
+                newcontext = true
+                // console.log(sections)
             }
-            if(newcontext){
-                sections.push(result.action)
-            }
-            newcontext = true
-            // console.log(sections)
         }
 
         let intentID = result.intent.name.split('/')
         intentID = intentID[intentID.length - 1];
-        // console.log('this is the name of the intent: ' + intentID)
-        // console.log(result.intent.displayName)
+        console.log('this is the name of the intent: ' + intentID)
+        console.log(result.intent.displayName)
         // console.log('these are the images: ' + images[`${intentID}`])
         // Getting the suggestions and images for the detected intent
         dbquery = await conversationDAO.intentAssests(intentID)
@@ -79,7 +81,7 @@ module.exports = {
         return {
             response: replies,
             context: {
-                type: result.action
+                type: contexts
             },
             suggestions: suggest,
             imgurl: images

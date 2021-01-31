@@ -14,8 +14,8 @@ module.exports = {
         // console.log('this is the name of the intent: ' + intentID)
         // console.log(reply.queryResult.intent.displayName)
         response = reply.queryResult.fulfillmentMessages[0].text.text[0]
-        frontendcontext = reply.queryResult.action
-        // console.log(frontendcontext)
+        frontendcontext = reply.queryResult.action//.split(',')
+        console.log(frontendcontext)
         if(usertext==''){
             usertext = reply.queryResult.queryText
         }
@@ -66,11 +66,12 @@ module.exports = {
         }
         else{
             try {
-                // console.log(usertext)
+                console.log(usertext)
                 const emotion = await emotionDetect(usertext)
-                // console.log(emotion)
+                console.log(emotion)
                 dbquery = await conversationDAO.intentAssests(intentID)
                 eventname = dbquery[`${emotion}`]
+                console.log(eventname)
                 if(eventname!=null){
                     usertext = ''
                 }
