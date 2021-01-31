@@ -16,7 +16,9 @@ export default {
         Message
     },
     data() {
-        return { 
+        return {    
+            messageBufferQueue: [],
+            isPlaying: false
         }
     },
     props: {
@@ -29,6 +31,15 @@ export default {
             return this.$store.state.messages
         }
     },
+    watch: {
+        isPlaying: function (val) {
+            if(!this.messageBufferQueue.length) return;
+            if(!val) {
+                recorder.playMessage(this.messageBufferQueue[0]);
+                this.messageBufferQueue.shift();
+            }
+        },
+    },
     methods: {
         appendEvents: function() {
             bus.$on('new-user-message',(message)=> {
@@ -39,29 +50,50 @@ export default {
                 });
             });
             bus.$on('response-received', async (response)=>{
-                let currentIndex = this.messages.length;
-                let audio = await api.getAudioMessage(response.chatResponse.response);                
-                
-                this.$store.commit('addMessage',{
-                    text: response.chatResponse.response,
-                    author: 'BOT',
-                    type: 'MESSAGE', 
-                    suggestions: response.chatResponse.suggestions,
-                    imgurl: response.chatResponse.imgurl,
-                    index: currentIndex,
-                    audioBuffer: audio.audioBuffer.data
-                });
+                if(!response.chatResponse || !response.chatResponse.response || !response.chatResponse.response.length) return;
+                let chatResponse = response.chatResponse;
+                let currentIndex;
 
-                recorder.playMessage(audio.audioBuffer.data);
+                for(let i=0; i<chatResponse.response.length; i++) {
+                    currentIndex = this.messages.length;
 
-                console.log(response)
-                if(response.chatResponse.context && response.chatResponse.context.type ) {
-                    if(response.chatResponse.context.type !== this.$store.state.context) {
-                        this.$store.commit('setContext', response.chatResponse.context.type)
+                    let audio = await api.getAudioMessage(chatResponse.response[i]);                
+                    
+                    this.$store.commit('addMessage',{
+                        text: chatResponse.response[i],
+                        author: 'BOT',
+                        type: 'MESSAGE', 
+                        suggestions: (i === chatResponse.response.length - 1) ? chatResponse.suggestions : null,
+                        imgurl: chatResponse.imgurl && chatResponse.imgurl.length ? chatResponse.imgurl[i] : null,
+                        index: currentIndex,
+                        audioBuffer: audio.audioBuffer.data,
+                        context: chatResponse.context.type[i]
+                    });
+
+                    if(this.isPlaying) {
+                        this.messageBufferQueue.push(audio.audioBuffer.data); 
+                    } else {
+                        this.isPlaying = true;
+                        recorder.playMessage(audio.audioBuffer.data);
+                    }
+
+                    console.log(response)
+                    if(chatResponse.context && chatResponse.context.type.length ) {
+                        if(chatResponse.context.type[i] !== this.$store.state.context) {
+                            this.$store.commit('setContext', chatResponse.context.type[i])
+                        }
                     }
                 }
             });
             
+            bus.$on('stopped-playing', () => {
+                this.isPlaying = false;
+            })
+
+            bus.$on('start-playing', () => {
+                this.isPlaying = true;
+            });
+
         },
     },
     mounted() {

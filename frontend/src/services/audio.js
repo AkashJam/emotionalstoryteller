@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import RecordRTC from 'recordrtc';
+import bus from './bus'
 // import api from './api';
-
 
 let recorder = new Vue({
     data() {
@@ -9,7 +9,8 @@ let recorder = new Vue({
             mediaRecorder: null,
             audioChunks: [],
             audioBlob: null,
-            outputSource: null
+            outputSource: null,
+            playing: false
         }
     },
     methods: {
@@ -92,7 +93,7 @@ let recorder = new Vue({
         getLastAudio: function() {
             return this.audioBlob;
         },
-        playMessage: async(arrayBuffer, endHandler) => {
+        playMessage: async(arrayBuffer) => {
             let buffer = new Uint8Array(arrayBuffer).buffer;            
             let audioContext = new AudioContext();
             try {
@@ -105,9 +106,16 @@ let recorder = new Vue({
                             recorder.outputSource = audioContext.createBufferSource();
                             recorder.outputSource.connect(audioContext.destination);
                             recorder.outputSource.buffer = buffer;
-                            recorder.outputSource.onended = endHandler;
+                            let endHandler = function() {
+                                this.playing = false;
+                                bus.$emit('stopped-playing');
+                            }
+                            recorder.outputSource.onended = endHandler ;
+                            
+                            bus.$emit('start-playing');
                             recorder.outputSource.start(0);
 
+                            this.playing = true;
                         },
                         function() {
                             console.log(arguments);
@@ -120,6 +128,9 @@ let recorder = new Vue({
         },
         stopPlayingMessage: () => {
             recorder.outputSource.stop();
+        },
+        isPlaying: function() {
+            return this.playing;
         }
     },
     created() {
