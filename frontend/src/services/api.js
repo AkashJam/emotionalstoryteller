@@ -1,14 +1,10 @@
 import Vue from 'vue'
+require('dotenv').config({ path: '@/../.env' })
 
 let api = new Vue({
-    data() {
-        return {
-            api_root:'http://localhost:3000'
-        }
-    },
     methods: {
         post: async (path,data) => {
-            let result = await fetch(api.api_root + path, {
+            let result = await fetch(process.env.VUE_APP_API_LINK + path, {
                 "method": "POST",
                 "headers": {
                     'Content-Type': 'application/json'
