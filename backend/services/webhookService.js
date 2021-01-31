@@ -1,6 +1,7 @@
 const conversationDAO = require('../DAO/conversationDAO');
 const emotionDetect = require('./emotionDetectionService')
 const conversationService = require('./conversationService')
+require('dotenv').config({ path: '../.env' })
 
 usertext = ''
 firstconclusion = true
