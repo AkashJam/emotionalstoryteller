@@ -12,7 +12,7 @@
 import Conversation from '../components/Conversation'
 import InputMessage from '../components/InputMessage'
 import StoryCover from '../components/StoryCover'
-// import recorder from '../services/audio'
+import api from '../services/api'
 
 export default {
     computed: {
@@ -28,6 +28,16 @@ export default {
         InputMessage,
         StoryCover
     },
+    methods: {
+        setSessionID: async function() {
+            if(!localStorage.getItem('sessionID')) {
+                await api.createSessionID();
+            }
+        }
+    },
+    beforeMount() {
+        this.setSessionID();
+    }
 }
 </script>
 
