@@ -1,16 +1,16 @@
 const conversationDAO = require('../DAO/conversationDAO');
 const dialogflow = require('@google-cloud/dialogflow');
-const uuid = require('uuid');
 
 require('dotenv').config({ path: '../.env' })
 
-const sessionId = uuid.v4();
 const projectId = 'chatbot-test-bicu';
 sections = []
 newcontext = true
 
 module.exports = {
-    conversation: async (query) => {   
+    conversation: async (req) => {  
+        querytext = req.body.query 
+        sessionId = req.body.sessionId
         // Create a new session
         const sessionClient = new dialogflow.SessionsClient();
         const sessionPath = sessionClient.projectAgentSessionPath(projectId, sessionId);
@@ -20,7 +20,7 @@ module.exports = {
         queryInput: {
             text: {
             // The query to send to the dialogflow agent
-            text: query,
+            text: querytext,
             // The language used by the client (en-US)
             languageCode: 'en-US',
             }, 
@@ -32,11 +32,10 @@ module.exports = {
         // console.log('Detected intent');
         const result = responses[0].queryResult;
         contexts = result.action.split(',')
-        replies = []//result.fulfillmentMessages[0].text.text[0]
-        // If we want to use multiple text responses
-        // console.log(result.fulfillmentMessages)
+        
+        replies = []
+        // For multiple text responses
         for(let reply in result.fulfillmentMessages){
-            // console.log(reply)
             replies[reply] = result.fulfillmentMessages[reply].text.text[0]
         }
         // console.log(replies)
@@ -47,7 +46,6 @@ module.exports = {
             }
             if (contexts[context]!='OPEN-CONV'&&contexts[context]!='STORY-CONC') {
                 for(let section in sections){
-                    // console.log(section)
                     if(sections[section]==contexts[context]){
                         newcontext = false
                     }
@@ -74,7 +72,6 @@ module.exports = {
         }
         try {
             images = dbquery.image_url.split(';')
-            // console.log(images)
             for(let image in images){
                 images[image] = images[image].split(',')
                 if(images[image]==''){
@@ -84,7 +81,7 @@ module.exports = {
         } catch (error) {
             images = null
         }
-        console.log(images)
+        // console.log(images)
 
         return {
             response: replies,

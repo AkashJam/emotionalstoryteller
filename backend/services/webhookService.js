@@ -9,14 +9,14 @@ conclusionnumber = 0
 
 module.exports = {
     webhook: async (reply) => {
-        //console.log(reply)
+        console.log(reply.session)
         let intentID = reply.queryResult.intent.name.split('/')
         intentID = intentID[intentID.length - 1];
         // console.log('this is the name of the intent: ' + intentID)
         // console.log(reply.queryResult.intent.displayName)
         response = reply.queryResult.fulfillmentMessages[0].text.text[0]
         frontendcontext = reply.queryResult.action//.split(',')
-        console.log(frontendcontext)
+        // console.log(frontendcontext)
         if(usertext==''){
             usertext = reply.queryResult.queryText
         }
@@ -47,15 +47,15 @@ module.exports = {
             }
         }
         else if(frontendcontext=='STORY-CONC'){
-            if(firstconclusion){
+            if(firstconclusion && conclusions[conclusionnumber]!='continue'){
                 conclusions = await conversationService.history()
-                console.log(conclusions)
+                // console.log(conclusions)
                 firstconclusion = false
             }
-            console.log(conclusions[conclusionnumber])
+            // console.log(conclusions[conclusionnumber])
             dbquery = await conversationDAO.conclusionAssets(conclusions[conclusionnumber])
             eventname = dbquery.event_name
-            console.log(eventname)
+            // console.log(eventname)
             if(conclusions[conclusionnumber]=='continue'){
                 conclusionnumber = 0
                 firstconclusion = true
@@ -67,12 +67,12 @@ module.exports = {
         }
         else{
             try {
-                console.log(usertext)
+                // console.log(usertext)
                 const emotion = await emotionDetect(usertext)
-                console.log(emotion)
+                // console.log(emotion)
                 dbquery = await conversationDAO.intentAssests(intentID)
                 eventname = dbquery[`${emotion}`]
-                console.log(eventname)
+                // console.log(eventname)
                 if(eventname!=null){
                     usertext = ''
                 }
