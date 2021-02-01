@@ -64,7 +64,7 @@ module.exports = {
         intentID = intentID[intentID.length - 1];
         console.log('this is the name of the intent: ' + intentID)
         console.log(result.intent.displayName)
-        // console.log('these are the images: ' + images[`${intentID}`])
+        
         // Getting the suggestions and images for the detected intent
         dbquery = await conversationDAO.intentAssests(intentID)
         try {
@@ -73,10 +73,18 @@ module.exports = {
             suggest = null
         }
         try {
-            images = dbquery.image_url.split(',')
+            images = dbquery.image_url.split(';')
+            // console.log(images)
+            for(let image in images){
+                images[image] = images[image].split(',')
+                if(images[image]==''){
+                    images[image]=null
+                }
+            }
         } catch (error) {
             images = null
         }
+        console.log(images)
 
         return {
             response: replies,

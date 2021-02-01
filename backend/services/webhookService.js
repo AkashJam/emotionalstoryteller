@@ -49,13 +49,13 @@ module.exports = {
         else if(frontendcontext=='STORY-CONC'){
             if(firstconclusion){
                 conclusions = await conversationService.history()
-                // console.log(conclusions)
+                console.log(conclusions)
                 firstconclusion = false
             }
-            // .log(conclusions[conclusionnumber])
+            console.log(conclusions[conclusionnumber])
             dbquery = await conversationDAO.conclusionAssets(conclusions[conclusionnumber])
             eventname = dbquery.event_name
-            // console.log(eventname)
+            console.log(eventname)
             if(conclusions[conclusionnumber]=='continue'){
                 conclusionnumber = 0
                 firstconclusion = true
