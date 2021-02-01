@@ -3,7 +3,9 @@ const router = require('express').Router();
 const conversationService = require('../services/conversationService')
 
 router.post("/nextresponse", async (req, res, next) => {
-    const message = await conversationService.conversation(req);
+    userreply = req.body.query
+    sessionID = req.body.sessionID
+    const message = await conversationService.conversation(userreply,sessionID);
     res.json({
             userMessage: req.body.query,
             chatResponse: message

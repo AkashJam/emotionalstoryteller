@@ -8,9 +8,10 @@ sections = []
 newcontext = true
 
 module.exports = {
-    conversation: async (req) => {  
-        querytext = req.body.query 
-        sessionId = req.body.sessionId
+    conversation: async (query,session) => {  
+        querytext = query 
+        sessionId = session
+        console.log(sessionId)
         // Create a new session
         const sessionClient = new dialogflow.SessionsClient();
         const sessionPath = sessionClient.projectAgentSessionPath(projectId, sessionId);
