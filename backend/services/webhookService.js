@@ -30,7 +30,7 @@ module.exports = {
             }
             else{
                 try {
-                    // console.log(usertext)
+                    console.log(usertext)
                     const emotion = await emotionDetect(usertext)
                     // console.log(emotion)
                     dbquery = await conversationDAO.storyAssests(emotion)
@@ -47,9 +47,9 @@ module.exports = {
             }
         }
         else if(frontendcontext=='STORY-CONC'){
-            if(firstconclusion && conclusions[conclusionnumber]!='continue'){
+            if(firstconclusion){
                 conclusions = await conversationService.history()
-                // console.log(conclusions)
+                console.log(conclusions)
                 firstconclusion = false
             }
             // console.log(conclusions[conclusionnumber])

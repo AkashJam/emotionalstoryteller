@@ -8,9 +8,7 @@ sections = []
 newcontext = true
 
 module.exports = {
-    conversation: async (query,session) => {  
-        querytext = query 
-        sessionId = session
+    conversation: async (query,sessionId) => {  
         console.log(sessionId)
         // Create a new session
         const sessionClient = new dialogflow.SessionsClient();
@@ -21,7 +19,7 @@ module.exports = {
         queryInput: {
             text: {
             // The query to send to the dialogflow agent
-            text: querytext,
+            text: query,
             // The language used by the client (en-US)
             languageCode: 'en-US',
             }, 
@@ -61,8 +59,8 @@ module.exports = {
 
         let intentID = result.intent.name.split('/')
         intentID = intentID[intentID.length - 1];
-        console.log('this is the name of the intent: ' + intentID)
-        console.log(result.intent.displayName)
+        // console.log('this is the name of the intent: ' + intentID)
+        // console.log(result.intent.displayName)
         
         // Getting the suggestions and images for the detected intent
         dbquery = await conversationDAO.intentAssests(intentID)
