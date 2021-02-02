@@ -69,6 +69,26 @@ DEV_DB_HOST="localhost"
 DEV_DB_PWD="YOURPASSWORD_THAT_YOU_SET_WHEN_YOU_INSTALLED_POSTGRES"
 DEV_DB_PORT=5432
 
+### Intent Table Schema
+
+intent_id, intent, suggestions, image_url, joy, sadness, fear, anger, disgust
+
 ### Story Table Schema
 
-intent_id, intent, suggestions, image_url
+story_name, event_name, emotion
+
+### Conslusion Table Schema
+
+conclusion_name, event_name, section_name
+
+### Session Table Schema
+
+session_id, user_responses, sections, conclusion_no
+```
+
+Run migrations and seeds in the terminal
+
+```
+npx knex migrate:latest
+npx knex seed:run
+```
