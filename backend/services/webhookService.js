@@ -76,12 +76,12 @@ module.exports = {
         }
         else{
             try {
-                // console.log(usertext)
+                console.log(usertext)
                 const emotion = await emotionDetect(usertext)
-                // console.log(emotion)
-                dbqueryAssets = await conversationDAO.intentAssets(intentID)
+                console.log(emotion)
+                dbqueryAssets = await intentDAO.intentAssets(intentID)
                 eventname = dbqueryAssets[`${emotion}`]
-                // console.log(eventname)
+                console.log(eventname)
             } catch (error) {
                 eventname = null
             }
