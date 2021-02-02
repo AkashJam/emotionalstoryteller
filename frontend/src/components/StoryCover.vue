@@ -74,6 +74,14 @@ export default {
     background-color: var(--es-color-sad);
 }
 
+.story-banner:NOT(.OPEN-CONV).SURPRIZE-STORY {
+    background-color: var(--es-color-surprized);
+}
+
+.story-banner:NOT(.OPEN-CONV).DISGUST-STORY {
+    background-color: var(--es-color-disgust);
+}
+
 .story-banner:NOT(.OPEN-CONV) .character {
     position: absolute;
     top: 100%;
