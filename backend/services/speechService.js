@@ -1,5 +1,3 @@
-
-const conversationDAO = require('../DAO/conversationDAO');
 const uuid = require('uuid');
 
 require('dotenv').config({ path: '../.env' })

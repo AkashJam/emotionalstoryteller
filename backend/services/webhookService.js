@@ -1,85 +1,99 @@
-const conversationDAO = require('../DAO/conversationDAO');
+const intentDAO = require('../DAO/intentDAO');
+const storyDAO = require('../DAO/storyDAO');
+const conclusionDAO = require('../DAO/conclusionDAO');
+const sessionDAO = require('../DAO/sessionDAO');
 const emotionDetect = require('./emotionDetectionService')
-const conversationService = require('./conversationService')
 require('dotenv').config({ path: '../.env' })
-
-usertext = ''
-firstconclusion = true
-conclusionnumber = 0
 
 module.exports = {
     webhook: async (reply) => {
-        console.log(reply.session)
-        let intentID = reply.queryResult.intent.name.split('/')
-        intentID = intentID[intentID.length - 1];
-        // console.log('this is the name of the intent: ' + intentID)
-        // console.log(reply.queryResult.intent.displayName)
+        // console.log(reply.session)
+        let sessionID = reply.session.split('/')
+        sessionID = sessionID[sessionID.length - 1];
         response = reply.queryResult.fulfillmentMessages[0].text.text[0]
         frontendcontext = reply.queryResult.action//.split(',')
-        // console.log(frontendcontext)
-        if(usertext==''){
+        dbquerySession = await sessionDAO.selectSession(sessionID)
+        usertext = dbquerySession.responses
+        // console.log(`text from db is ${usertext}`)
+        // To check if the value changed from that in the database
+        initialtext = usertext 
+        if(usertext=='none'){
             usertext = reply.queryResult.queryText
         }
         else{
             usertext = `${usertext}. ${reply.queryResult.queryText}`
         } 
+        // console.log(msg)
+        let intentID = reply.queryResult.intent.name.split('/')
+        intentID = intentID[intentID.length - 1];
+        // console.log('this is the name of the intent: ' + intentID)
+        // console.log(reply.queryResult.intent.displayName)
+        // console.log(frontendcontext)
+        
         if(frontendcontext=='OPEN-CONV'){
             if(response!='end'){
                 eventname = null
                 //console.log(response)
             }
             else{
-                try {
-                    console.log(usertext)
+                //since if the text used for detecting emotion is too small, ibm-watson api throws an error
+                try{
+                    // console.log(usertext)
                     const emotion = await emotionDetect(usertext)
                     // console.log(emotion)
-                    dbquery = await conversationDAO.storyAssests(emotion)
-                    eventname = dbquery.event_name
-                    // console.log(eventname)
-                    if(eventname!=null){
-                        usertext = ''
-                    }
+                    dbqueryAssets = await storyDAO.storyAssets(emotion)
+                    eventname = dbqueryAssets.event_name
                 } catch (error) {
-                    dbquery = await conversationDAO.storyAssests()
-                    eventname = dbquery.event_name
-                    // console.log(error)
+                    dbqueryAssets = await storyDAO.storyAssets()
+                    eventname = dbqueryAssets.event_name
                 }
+                // console.log(eventname)
             }
         }
         else if(frontendcontext=='STORY-CONC'){
-            if(firstconclusion){
-                conclusions = await conversationService.history()
-                console.log(conclusions)
-                firstconclusion = false
+            conclusions = dbquerySession.sections
+            conclusionnumber = dbquerySession.conclusion_no
+            if(conclusionnumber==0 && conclusions!='none'){
+                conclusions = `${conclusions},continue`
+                conclusion = conclusions.split(',')
+                // console.log(conclusions)
+                await sessionDAO.updateSessionSections(sessionID,conclusions)
             }
             // console.log(conclusions[conclusionnumber])
-            dbquery = await conversationDAO.conclusionAssets(conclusions[conclusionnumber])
-            eventname = dbquery.event_name
+            dbqueryAssets = await conclusionDAO.conclusionAssets(conclusion[conclusionnumber])
+            eventname = dbqueryAssets.event_name
             // console.log(eventname)
-            if(conclusions[conclusionnumber]=='continue'){
+            if(conclusion[conclusionnumber]=='continue'){
                 conclusionnumber = 0
-                firstconclusion = true
+                conclusions='none'
             }
             else{
                 conclusionnumber += 1
             }
-            usertext = ''
+            await sessionDAO.updateSessionConclusions(sessionID,conclusionnumber)
         }
         else{
             try {
                 // console.log(usertext)
                 const emotion = await emotionDetect(usertext)
                 // console.log(emotion)
-                dbquery = await conversationDAO.intentAssests(intentID)
-                eventname = dbquery[`${emotion}`]
+                dbqueryAssets = await conversationDAO.intentAssets(intentID)
+                eventname = dbqueryAssets[`${emotion}`]
                 // console.log(eventname)
-                if(eventname!=null){
-                    usertext = ''
-                }
             } catch (error) {
                 eventname = null
             }
         }
+
+        if(eventname!=null){
+            usertext = 'none'
+        }
+
+        if(usertext!=initialtext){
+            await sessionDAO.updateSessionResponses(sessionID,usertext)
+        }
+
+        
         // Create webhook response inaccordance with dialogflow response syntax
         return JSON.stringify({
             "fulfillmentMessages": [

@@ -1,16 +1,22 @@
-const conversationDAO = require('../DAO/conversationDAO');
+const intentDAO = require('../DAO/intentDAO');
+const sessionDAO = require('../DAO/sessionDAO');
 const dialogflow = require('@google-cloud/dialogflow');
 
 require('dotenv').config({ path: '../.env' })
 
 const projectId = 'chatbot-test-bicu';
-sections = []
+// sections = []
 newcontext = true
 
 module.exports = {
     conversation: async (query,sessionId) => {  
-        console.log(sessionId)
-        // Create a new session
+        // console.log(sessionId)
+        // Create a new session in database if it does not exist
+        notExist = await sessionDAO.sessionNotExists(sessionId)
+        // console.log(notExist)
+        if(notExist){
+            await sessionDAO.createSession(sessionID)
+        }
         const sessionClient = new dialogflow.SessionsClient();
         const sessionPath = sessionClient.projectAgentSessionPath(projectId, sessionId);
         // The text query request.
@@ -31,9 +37,14 @@ module.exports = {
         // console.log('Detected intent');
         const result = responses[0].queryResult;
         contexts = result.action.split(',')
-        
+        dbquerySession = await sessionDAO.selectSession(sessionID)
+        sections = dbquerySession.sections
+        // To check for changes needs to be made into the database
+        initialsections = sections
+        // console.log(`${initialsections},${sections}`)
+
+        // For accepting multiple text responses from dialogflow
         replies = []
-        // For multiple text responses
         for(let reply in result.fulfillmentMessages){
             replies[reply] = result.fulfillmentMessages[reply].text.text[0]
         }
@@ -41,16 +52,20 @@ module.exports = {
         
         for(let context in contexts){
             if(contexts[context]=='OPEN-CONV'){
-                sections=[]
+                sections = 'none'
             }
             if (contexts[context]!='OPEN-CONV'&&contexts[context]!='STORY-CONC') {
-                for(let section in sections){
-                    if(sections[section]==contexts[context]){
+                if(sections=='none'){
+                    sections = contexts[context]
+                }
+                section = sections.split(',')
+                for(let num in section){
+                    if(section[num]==contexts[context]){
                         newcontext = false
                     }
                 }
                 if(newcontext){
-                    sections.push(contexts[context])
+                    sections = `${sections},${contexts[context]}`
                 }
                 newcontext = true
                 // console.log(sections)
@@ -63,14 +78,14 @@ module.exports = {
         // console.log(result.intent.displayName)
         
         // Getting the suggestions and images for the detected intent
-        dbquery = await conversationDAO.intentAssests(intentID)
+        dbqueryAssets = await intentDAO.intentAssets(intentID)
         try {
-            suggest = dbquery.suggestion.split(',')
+            suggest = dbqueryAssets.suggestion.split(',')
         } catch (error) {
             suggest = null
         }
         try {
-            images = dbquery.image_url.split(';')
+            images = dbqueryAssets.image_url.split(';')
             for(let image in images){
                 images[image] = images[image].split(',')
                 if(images[image]==''){
@@ -81,6 +96,11 @@ module.exports = {
             images = null
         }
         // console.log(images)
+        
+        if(sections!=initialsections){
+            await sessionDAO.updateSessionSections(sessionID,sections)
+            // console.log(`${sessionId},${sections},${initialsections}`)
+        }
 
         return {
             response: replies,
@@ -90,9 +110,5 @@ module.exports = {
             suggestions: suggest,
             imgurl: images
         }
-    },
-    history: async () => {
-        sections.push('continue')
-        return sections
-    },
+    }
 };
