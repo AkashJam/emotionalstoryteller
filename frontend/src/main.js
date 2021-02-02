@@ -6,8 +6,6 @@ Vue.config.productionTip = false
 
 import './style/variables.css'
 import router from './router'
-import './registerServiceWorker'
-
 
 new Vue({
   router,
