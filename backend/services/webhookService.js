@@ -11,7 +11,9 @@ module.exports = {
         let sessionID = reply.session.split('/')
         sessionID = sessionID[sessionID.length - 1];
         response = reply.queryResult.fulfillmentMessages[0].text.text[0]
-        frontendcontext = reply.queryResult.action//.split(',')
+        frontendcontext = reply.queryResult.action.split('-')
+        frontendcontext = frontendcontext[frontendcontext.length - 1]
+        console.log(frontendcontext)
         dbquerySession = await sessionDAO.selectSession(sessionID)
         usertext = dbquerySession.responses
         // console.log(`text from db is ${usertext}`)
@@ -30,7 +32,7 @@ module.exports = {
         // console.log(reply.queryResult.intent.displayName)
         // console.log(frontendcontext)
         
-        if(frontendcontext=='OPEN-CONV'){
+        if(frontendcontext=='CONV'){
             if(response!='end'){
                 eventname = null
                 //console.log(response)
@@ -50,7 +52,7 @@ module.exports = {
                 // console.log(eventname)
             }
         }
-        else if(frontendcontext=='STORY-CONC'){
+        else if(frontendcontext=='CONC'){
             conclusions = dbquerySession.sections
             conclusionnumber = dbquerySession.conclusion_no
             if(conclusionnumber==0 && conclusions!='none'){

@@ -51,10 +51,13 @@ module.exports = {
         // console.log(replies)
         
         for(let context in contexts){
-            if(contexts[context]=='OPEN-CONV'){
+            part = contexts[context].split('-')
+            part = part[part.length-1]
+            console.log(part)
+            if(part=='CONV'){
                 sections = 'none'
             }
-            if (contexts[context]!='OPEN-CONV'&&contexts[context]!='STORY-CONC') {
+            if (part!='CONV'&&part!='CONC') {
                 if(sections=='none'){
                     sections = contexts[context]
                 }
