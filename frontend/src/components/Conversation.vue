@@ -135,7 +135,7 @@ export default {
 }
 
 .conversation.OPEN-CONV .message:first-child {
-    margin-top: 150px;
+    margin-top: 18%;
 }
 
 .conversation:not(.OPEN-CONV) .message:first-child {

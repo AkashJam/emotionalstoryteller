@@ -1,10 +1,10 @@
 <template>
     <div class="input-message">
         <div class="buttons-bar">
-            <button v-if="!recording" class="record" @click.stop="startRecording">Answer to Berno
+            <button v-if="!recording && microphonePermissions" class="record" @click.stop="startRecording">Answer to Berno
                 <img class="icon" src="../assets/icons/mic.svg">
             </button>
-            <button v-if="recording" class="stop-recording" @click.stop="stopRecording">Stop Recording
+            <button v-if="recording && microphonePermissions" class="stop-recording" @click.stop="stopRecording">Stop Recording
                 <img class="icon" src="../assets/icons/mic.svg">
             </button>
             <button class="send" @click.stop="sendMessage">Send message
@@ -29,7 +29,8 @@ export default {
     data() {
         return {
             message: "",
-            recording: false
+            recording: false,
+            microphonePermissions: true
         }
     },
     methods: {
@@ -60,6 +61,15 @@ export default {
             console.log(this.message);
             this.sendMessage();
         }
+    },
+    mounted() {
+        navigator.permissions.query({name:'microphone'}).then((result) => {
+            if (result.state == 'denied') {
+                this.microphonePermissions = false;
+            } else if (result.state == 'prompt') {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+            }
+        });
     }
 
 

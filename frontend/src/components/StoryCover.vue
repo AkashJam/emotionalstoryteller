@@ -1,12 +1,11 @@
 <template>
     <div :class="[storyMode,'story-banner']">
         
-        <div class="story-banner-end">
-            <svg viewBox="0 0 500 100" >
-                <path d="M0,50 C150,120 250,0 500,50 L500,00 L0,0 Z" style="stroke: none; fill:#d6efff;"></path>
-            </svg>
-            <img class="character" src="../assets/img/Berno_talking.svg">
-        </div>
+        <svg v-if="!imgurl" viewBox="0 0 500 100" >
+            <path d="M0,50 C150,120 250,0 500,50 L500,00 L0,0 Z" style="stroke: none; fill:#d6efff;"></path>
+        </svg>
+        <img class="character" src="../assets/img/Berno_talking.svg">
+        
         <div v-if="storyMode!=='OPEN-CONV'" class="story-image" >
             <img :class="`img-${index}`" v-for="(image,index) in imgurl" :key="index" :src="`/assets/${image}`">
         </div>
@@ -33,6 +32,7 @@ export default {
   display: inline-block;
   position: absolute;
   left: 0;
+  z-index: 1;
 }
 .OPEN-CONV.story-banner .story-banner-end {
   position: fixed;
@@ -74,23 +74,26 @@ export default {
     background-color: var(--es-color-sad);
 }
 
-.story-banner:NOT(.OPEN-CONV) .story-banner-end .character {
+.story-banner:NOT(.OPEN-CONV).SURPRIZE-STORY {
+    background-color: var(--es-color-surprized);
+}
+
+.story-banner:NOT(.OPEN-CONV).DISGUST-STORY {
+    background-color: var(--es-color-disgust);
+}
+
+.story-banner:NOT(.OPEN-CONV) .character {
+    position: absolute;
     top: 100%;
     transform: translateY(-100%);
     animation-name: character-move;
     animation-duration: 3s;
     animation-delay: -1s;
     animation-timing-function: ease-in-out;
-
+    height: 30%;
 }
 
-.story-banner:NOT(.OPEN-CONV) .story-banner-end {
-    width: 100%;
-    z-index:3;
-    height: 100%;
-    position: absolute;
-}
-.story-banner:NOT(.OPEN-CONV) .story-banner-end svg{
+.story-banner:NOT(.OPEN-CONV) svg{
     animation-name: story-header;
     animation-duration: 1s;
     opacity: 0;
@@ -103,9 +106,12 @@ export default {
 .story-banner .story-image img {
     display: inline-block;
     max-width: 32%;
+    max-height: 100%;
 }
 
 .story-banner .story-image img:only-child {
+    max-width: 100%;
+    max-height: 100%;
     max-width: initial;
     display: initial;
     height: 100%
