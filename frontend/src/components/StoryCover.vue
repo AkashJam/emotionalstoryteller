@@ -1,7 +1,7 @@
 <template>
-    <div :class="[storyMode,'story-banner']">
+    <div :class="[storyMode,'story-banner']" :style="style">
         
-        <svg v-if="!imgurl" viewBox="0 0 500 100" >
+        <svg v-if="storyMode=='OPEN-CONV'" viewBox="0 0 500 100" >
             <path d="M0,50 C150,120 250,0 500,50 L500,00 L0,0 Z" style="stroke: none; fill:#d6efff;"></path>
         </svg>
         <img class="character" src="../assets/img/Berno_talking.svg">
@@ -56,29 +56,35 @@ export default {
     left: 0;
     right: 0;
     animation-name: animation;
-    animation-duration: 2s;
+    animation-duration: 1.5s;
 }
-.story-banner:NOT(.OPEN-CONV).SCARY-STORY {
+.story-banner:NOT(.OPEN-CONV).SCARY-STORY, 
+.story-banner:NOT(.OPEN-CONV).SCARY-CONC {
     background-color: var(--es-color-afraid);
 }
 
-.story-banner:NOT(.OPEN-CONV).ANGRY-STORY {
+.story-banner:NOT(.OPEN-CONV).ANGRY-STORY,
+.story-banner:NOT(.OPEN-CONV).ANGRY-CONC {
     background-color: var(--es-color-angry);
 }
 
-.story-banner:NOT(.OPEN-CONV).HAPPY-STORY {
+.story-banner:NOT(.OPEN-CONV).HAPPY-STORY,
+.story-banner:NOT(.OPEN-CONV).HAPPY-CONC  {
     background-color: var(--es-color-happy);
 }
 
-.story-banner:NOT(.OPEN-CONV).SAD-STORY {
+.story-banner:NOT(.OPEN-CONV).SAD-STORY,
+.story-banner:NOT(.OPEN-CONV).SAD-CONC {
     background-color: var(--es-color-sad);
 }
 
-.story-banner:NOT(.OPEN-CONV).SURPRIZE-STORY {
+.story-banner:NOT(.OPEN-CONV).SURPRIZE-STORY,
+.story-banner:NOT(.OPEN-CONV).SURPRIZE-CONC {
     background-color: var(--es-color-surprized);
 }
 
-.story-banner:NOT(.OPEN-CONV).DISGUST-STORY {
+.story-banner:NOT(.OPEN-CONV).DISGUST-STORY,
+.story-banner:NOT(.OPEN-CONV).DISGUST-CONC {
     background-color: var(--es-color-disgust);
 }
 
@@ -87,8 +93,7 @@ export default {
     top: 100%;
     transform: translateY(-100%);
     animation-name: character-move;
-    animation-duration: 3s;
-    animation-delay: -1s;
+    animation-duration: 1s;
     animation-timing-function: ease-in-out;
     height: 30%;
 }
@@ -96,6 +101,7 @@ export default {
 .story-banner:NOT(.OPEN-CONV) svg{
     animation-name: story-header;
     animation-duration: 1s;
+    animation-timing-function: ease-in-out;
     opacity: 0;
 }
 .story-image {
@@ -112,14 +118,19 @@ export default {
 .story-banner .story-image img:only-child {
     max-width: 100%;
     max-height: 100%;
-    max-width: initial;
     display: initial;
-    height: 100%
 }
 .story-banner .story-banner-end img {
     width: 12%;
     position: absolute;
     left: 20px;
+}
+
+@media (max-width: 700px) {
+  .story-banner .story-image img:not(:only-child) {
+    max-width: 190px;
+    max-height: 190px;
+  }
 }
 
 @keyframes animation {
