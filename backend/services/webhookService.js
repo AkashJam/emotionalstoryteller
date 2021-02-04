@@ -81,6 +81,10 @@ module.exports = {
                 console.log(emotion)
                 dbqueryAssets = await intentDAO.intentAssets(intentID)
                 eventname = dbqueryAssets[`${emotion}`]
+                if(eventname=='incorrect'){
+                    eventname = null
+                    usertext = 'none'
+                }
                 console.log(eventname)
             } catch (error) {
                 eventname = null
