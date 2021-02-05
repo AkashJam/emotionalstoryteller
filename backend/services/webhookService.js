@@ -13,7 +13,7 @@ module.exports = {
         response = reply.queryResult.fulfillmentMessages[0].text.text[0]
         frontendcontext = reply.queryResult.action.split('-')
         frontendcontext = frontendcontext[frontendcontext.length - 1]
-        console.log(frontendcontext)
+        // console.log(frontendcontext)
         dbquerySession = await sessionDAO.selectSession(sessionID)
         usertext = dbquerySession.responses
         // console.log(`text from db is ${usertext}`)
@@ -55,6 +55,7 @@ module.exports = {
         else if(frontendcontext=='CONC'){
             conclusions = dbquerySession.sections
             conclusionnumber = dbquerySession.conclusion_no
+            conclusion = conclusions.split(',')
             if(conclusionnumber==0 && conclusions!='none'){
                 conclusions = `${conclusions},continue`
                 conclusion = conclusions.split(',')
