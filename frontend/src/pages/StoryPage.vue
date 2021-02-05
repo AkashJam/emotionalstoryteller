@@ -30,9 +30,7 @@ export default {
     },
     methods: {
         setSessionID: async function() {
-            if(!localStorage.getItem('sessionID')) {
-                await api.createSessionID();
-            }
+            await api.createSessionID();
         }
     },
     beforeMount() {

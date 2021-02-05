@@ -24,6 +24,7 @@ let api = new Vue({
         createSessionID: async () => {
             let session = await api.get('/generateSessionID');
             console.log(session);
+            localStorage.removeItem('sessionID');
             localStorage.setItem('sessionID', session.sessionID);
             return session.sessionID;
         },
