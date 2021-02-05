@@ -5,11 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    messages: [{
-                text: "Hello!",
-                author: "BOT",
-                type: 'MESSAGE'
-            }],
+    messages: [],
     context: 'OPEN-CONV'
   },
   mutations: {

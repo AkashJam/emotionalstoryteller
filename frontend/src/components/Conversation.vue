@@ -95,9 +95,23 @@ export default {
             });
 
         },
+        appendFirstMessage: async function() {
+            let message = {
+                text: "Hello!",
+                author: "BOT",
+                type: 'MESSAGE',
+                index: 0,
+                context: 'OPEN-CONV'
+            };
+            this.$store.commit('addMessage',message);
+            let audio = await api.getAudioMessage(message.text); 
+            message.audioBuffer = audio.audioBuffer.data;
+            recorder.playMessage(message.audioBuffer);
+        }
     },
     mounted() {
         this.appendEvents();
+        this.appendFirstMessage();
     },
     beforeDestroy() {
         bus.$off('new-user-message')

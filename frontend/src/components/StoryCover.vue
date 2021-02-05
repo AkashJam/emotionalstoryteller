@@ -1,7 +1,8 @@
 <template>
-    <div :class="[storyMode,'story-banner']" :style="style">
+    <div :class="[storyMode,'story-banner']">
+        <h3 class="conclusion-title" v-if="/-CONC/.test(storyMode)">  What we have learned from the story </h3>
         
-        <svg v-if="storyMode=='OPEN-CONV'" viewBox="0 0 500 100" >
+        <svg v-if="storyMode=='OPEN-CONV'" viewBox="0 0 500 80" >
             <path d="M0,50 C150,120 250,0 500,50 L500,00 L0,0 Z" style="stroke: none; fill:#d6efff;"></path>
         </svg>
         <img class="character" src="../assets/img/Berno_talking.svg">
@@ -124,6 +125,26 @@ export default {
     width: 12%;
     position: absolute;
     left: 20px;
+}
+
+.conclusion-title {
+    position: absolute;
+    top: 100%;
+    margin: 0;
+    transform: translateY(-100%);
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    z-index: 10;
+    display: none;
+}
+
+@media (min-width: 610px) {
+  .conclusion-title {
+      display:initial;
+  }
 }
 
 @media (max-width: 700px) {
