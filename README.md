@@ -1,3 +1,8 @@
+# Prototype URL
+```
+http://emotionalstoryteller.herokuapp.com/
+```
+
 # frontend
 
 ## Project setup
